@@ -10,7 +10,7 @@ import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
+import Search from "@material-ui/icons/Search";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
 // core components
@@ -43,54 +43,14 @@ export default function Dashboard() {
   return (
     <div>
       <GridContainer>
-        <GridItem>
-          
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="success">
-              <ChartistGraph
-                className="ct-chart"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Daily Lookups</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                increase in today's lookups.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-         
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
             title="Tasks:"
             headerColor="primary"
             tabs={[
               {
-                tabName: "Bugs",
-                tabIcon: BugReport,
+                tabName: "Search",
+                tabIcon: Search,
                 tabContent: (
                   <Tasks
                     checkedIndexes={[0, 3]}
@@ -99,53 +59,12 @@ export default function Dashboard() {
                   />
                 ),
               },
-              {
-                tabName: "Website",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                ),
-              },
-              {
-                tabName: "Server",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
-                  />
-                ),
-              },
+              
+              
             ]}
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <Card>
-            <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
-              <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
-              </p>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Salary", "Country"]}
-                tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"],
-                ]}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
+        
       </GridContainer>
     </div>
   );

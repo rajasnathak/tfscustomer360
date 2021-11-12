@@ -5,6 +5,9 @@ module.exports = {
     node: true,
     browser: true,
   },
+  rules: {
+    "no-unused-vars": "off"
+},
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module",

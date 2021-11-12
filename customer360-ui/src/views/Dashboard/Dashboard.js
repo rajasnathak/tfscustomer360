@@ -43,9 +43,9 @@ export default function Dashboard() {
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
+        <GridItem xs={8}>
           <CustomTabs
-            title="Tasks:"
+            title=""
             headerColor="primary"
             tabs={[
               {

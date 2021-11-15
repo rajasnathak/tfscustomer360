@@ -36,10 +36,22 @@ import {
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
+// Import D3
+import * as d3 from "d3";
+
+// Import Graph
+import { ForceGraph } from "../../components/Graph/Graph";
+
+// Import data
+import data from "../../data/data.json";
+
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
   const classes = useStyles();
+  const nodeHoverTooltip = React.useCallback((node) => {
+    return `<div>${node.name}</div>`;
+  }, []);
   return (
     <div>
       <GridContainer>
@@ -59,12 +71,16 @@ export default function Dashboard() {
                   />
                 ),
               },
-              
-              
             ]}
           />
         </GridItem>
-        
+        <GridItem xs={8}>
+          <ForceGraph
+            linksData={data.links}
+            nodesData={data.nodes}
+            nodeHoverTooltip={nodeHoverTooltip}
+          />
+        </GridItem>
       </GridContainer>
     </div>
   );

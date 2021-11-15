@@ -6,8 +6,8 @@ module.exports = {
     browser: true,
   },
   rules: {
-    "no-unused-vars": "off"
-},
+    "no-unused-vars": "off",
+  },
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module",

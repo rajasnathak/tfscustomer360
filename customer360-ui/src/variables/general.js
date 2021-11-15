@@ -2,12 +2,7 @@
 // // // Tasks for TasksCard - see Dashboard view
 // #############################
 
-var bugs = [
-  'VIN"',
-  "Account Number",
-  "Address",
-  "Phone",
-];
+var bugs = ['VIN"', "Account Number", "Address", "Phone"];
 var website = [
   "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
   'Sign contract for "What are conference organizers afraid of?"',

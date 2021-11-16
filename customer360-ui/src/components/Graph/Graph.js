@@ -1,9 +1,7 @@
-import React, { Component } from "react";
-import * as d3 from "d3";
+import React from "react";
 import { runForceGraph } from "./GraphGenerator";
-import styles from "../../assets/css/graph-generator.css";
+import styles from "./Graph.module.css";
 
-// eslint-disable-next-line react/prop-types
 export function ForceGraph({ linksData, nodesData, nodeHoverTooltip }) {
   const containerRef = React.useRef(null);
 
@@ -11,12 +9,7 @@ export function ForceGraph({ linksData, nodesData, nodeHoverTooltip }) {
     let destroyFn;
 
     if (containerRef.current) {
-      const { destroy } = runForceGraph(
-        containerRef.current,
-        linksData,
-        nodesData,
-        nodeHoverTooltip
-      );
+      const { destroy } = runForceGraph(containerRef.current, linksData, nodesData, nodeHoverTooltip);
       destroyFn = destroy;
     }
 

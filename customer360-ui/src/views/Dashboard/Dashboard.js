@@ -75,11 +75,13 @@ export default function Dashboard() {
           />
         </GridItem>
         <GridItem xs={8}>
+          <Card>
           <ForceGraph
             linksData={data.links}
             nodesData={data.nodes}
             nodeHoverTooltip={nodeHoverTooltip}
           />
+          </Card>
         </GridItem>
       </GridContainer>
     </div>

@@ -55,7 +55,7 @@ export default function Dashboard() {
   return (
     <div>
       <GridContainer>
-        <GridItem xs={8}>
+        {/* <GridItem xs={8}>
           <CustomTabs
             title=""
             headerColor="primary"
@@ -73,14 +73,14 @@ export default function Dashboard() {
               },
             ]}
           />
-        </GridItem>
+        </GridItem> */}
         <GridItem xs={8}>
           <Card>
-          <ForceGraph
-            linksData={data.links}
-            nodesData={data.nodes}
-            nodeHoverTooltip={nodeHoverTooltip}
-          />
+            <ForceGraph
+              linksData={data.links}
+              nodesData={data.nodes}
+              nodeHoverTooltip={nodeHoverTooltip}
+            />
           </Card>
         </GridItem>
       </GridContainer>

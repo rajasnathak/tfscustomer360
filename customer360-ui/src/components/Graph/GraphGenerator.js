@@ -18,7 +18,7 @@ export function runForceGraph(
   // helper functions
   // retrieve color for given node
   const color = () => {
-    return "#9D00A0";
+    return "#EB0A1E";
   };
 
   const icon = (d) => {
@@ -28,7 +28,6 @@ export function runForceGraph(
   const getClass = (d) => {
     return d.gender === "male" ? styles.male : styles.female;
   };
-
   // Adds the option to drag the force graph nodes
   const drag = (simulation) => {
     const dragstarted = (event, d) => {
@@ -37,7 +36,7 @@ export function runForceGraph(
       d.fy = d.y;
     };
 
-    const dragged = (d) => {
+    const dragged = (event, d) => {
       d.fx = event.x;
       d.fy = event.y;
     };
@@ -54,30 +53,6 @@ export function runForceGraph(
       .on("drag", dragged)
       .on("end", dragended);
   };
-
-  // Add the tooltip element to the graph
-  const tooltip = document.querySelector("#graph-tooltip");
-  if (!tooltip) {
-    const tooltipDiv = document.createElement("div");
-    tooltipDiv.classList.add(styles.tooltip);
-    tooltipDiv.style.opacity = "0";
-    tooltipDiv.id = "graph-tooltip";
-    document.body.appendChild(tooltipDiv);
-  }
-  const div = d3.select("#graph-tooltip");
-
-  const addTooltip = (hoverTooltip, d, x, y) => {
-    div.transition().duration(200).style("opacity", 0.9);
-    div
-      .html(hoverTooltip(d))
-      .style("left", `${x}px`)
-      .style("top", `${y - 28}px`);
-  };
-
-  const removeTooltip = () => {
-    div.transition().duration(200).style("opacity", 0);
-  };
-
   ///////
   // D3 Code //
   /////////////
@@ -96,7 +71,7 @@ export function runForceGraph(
     .append("svg")
     .attr("viewBox", [-width / 2, -height / 2, width, height])
     .call(
-      d3.zoom().on("zoom", function (evemt) {
+      d3.zoom().on("zoom", function (event) {
         svg.attr("transform", event.transform);
       })
     );
@@ -121,26 +96,40 @@ export function runForceGraph(
     .attr("fill", color)
     .call(drag(simulation));
 
-  const label = svg
+  const node_label = svg
     .append("g")
     .attr("class", "labels")
-    .selectAll("text")
+    .selectAll("text.label")
     .data(nodes)
     .enter()
     .append("text")
-    .attr("text-anchor", "middle")
-    .attr("dominant-baseline", "central")
+    .attr("dominant-baseline", "auto")
     .attr("class", (d) => `fa ${getClass(d)}`)
-    .text((d) => {
-      return icon(d);
-    })
-    .call(drag(simulation));
+    .call(drag(simulation))
+    .text(function (d) {
+      return d.name;
+    });
+
+  const link_label = svg
+    .append("g")
+    .attr("class", "labels")
+    .selectAll("text.label")
+    .data(links)
+    .enter()
+    .append("text")
+    .attr("text-anchor", "start")
+    .attr("dominant-baseline", "auto")
+    .attr("class", (d) => `fa ${getClass(d)}`)
+    .call(drag(simulation))
+    .text(function (d) {
+      return d.name;
+    });
 
   //////////////
   // Event handlers //
   //////////////
 
-  label
+  node_label
     .on("mouseover", (event, d) => {
       addTooltip(nodeHoverTooltip, d, event.pageX, event.pageY);
     })
@@ -151,16 +140,24 @@ export function runForceGraph(
   simulation.on("tick", () => {
     //update link positions
     link
-      .attr("x1", (d) => d.source.x)
-      .attr("y1", (d) => d.source.y)
-      .attr("x2", (d) => d.target.x)
-      .attr("y2", (d) => d.target.y);
+      .attr("x1", (d) => d.source.x * 2)
+      .attr("y1", (d) => d.source.y * 2)
+      .attr("x2", (d) => d.target.x * 2)
+      .attr("y2", (d) => d.target.y * 2);
 
     // update node positions
-    node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+    node.attr("cx", (d) => d.x * 2).attr("cy", (d) => d.y * 2);
 
     // update label positions
-    label
+    node_label
+      .attr("x", (d) => {
+        return d.x * 2;
+      })
+      .attr("y", (d) => {
+        return d.y * 2;
+      });
+
+    link_label
       .attr("x", (d) => {
         return d.x;
       })
@@ -168,6 +165,59 @@ export function runForceGraph(
         return d.y;
       });
   });
+
+  // focus on subset
+  function focus(event, d) {
+    var index = d3.select(event.target).datum().index;
+    node.style("opacity", function (o) {
+      return neigh(index, o.index) ? 1 : 0.1;
+    });
+    node_label.attr("display", function (o) {
+      return neigh(index, o.node.index) ? "block" : "none";
+    });
+    link.style("opacity", function (o) {
+      return o.source.index == index || o.target.index == index ? 1 : 0.1;
+    });
+  }
+
+  function unfocus() {
+    node_label.attr("display", "block");
+    node.style("opacity", 1);
+    link.style("opacity", 1);
+  }
+
+  var adjlist = [];
+
+  links.forEach(function (d) {
+    adjlist[d.source.index + "-" + d.target.index] = true;
+    adjlist[d.target.index + "-" + d.source.index] = true;
+  });
+  function neigh(a, b) {
+    return a == b || adjlist[a + "-" + b];
+  }
+
+  // Add the tooltip element to the graph
+  const tooltip = document.querySelector("#graph-tooltip");
+  if (!tooltip) {
+    const tooltipDiv = document.createElement("div");
+    tooltipDiv.classList.add(styles.tooltip);
+    tooltipDiv.style.opacity = "0";
+    tooltipDiv.id = "graph-tooltip";
+    document.body.appendChild(tooltipDiv);
+  }
+  const div = d3.select("#graph-tooltip");
+
+  const addTooltip = (hoverTooltip, d, x, y) => {
+    div.transition().duration(200).style("opacity", 0.9);
+    div
+      .html(hoverTooltip(d))
+      .style("left", `${x}px`)
+      .style("top", `${y - 28}px`);
+  };
+
+  const removeTooltip = () => {
+    div.transition().duration(200).style("opacity", 0);
+  };
 
   // return the destroy function that the graph container is going to use
   return {

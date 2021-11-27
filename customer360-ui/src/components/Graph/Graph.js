@@ -16,5 +16,10 @@ export function ForceGraph({ linksData, nodesData, nodeHoverTooltip }) {
     return destroyFn;
   }, []);
 
+<<<<<<< Updated upstream
   return <div ref={containerRef} className={styles.container} />;
 }
+=======
+  return <div ref={containerRef} className={styles.container} style={{height:500}}/>;
+}
+>>>>>>> Stashed changes

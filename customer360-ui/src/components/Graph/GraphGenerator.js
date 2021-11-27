@@ -10,6 +10,7 @@ export function runForceGraph(
   // copy the data and get the container's width and height
   const links = linksData.map((d) => Object.assign({}, d));
   const nodes = nodesData.map((d) => Object.assign({}, d));
+  var linkDistance = 200;
 
   const containerRect = container.getBoundingClientRect();
   const height = containerRect.height;
@@ -60,9 +61,12 @@ export function runForceGraph(
     .forceSimulation(nodes)
     .force(
       "link",
-      d3.forceLink(links).id((d) => d.id)
+      d3
+        .forceLink(links)
+        .id((d) => d.id)
+        .distance(linkDistance)
     )
-    .force("charge", d3.forceManyBody().strength(-150))
+    .force("charge", d3.forceManyBody().strength(-1000))
     .force("x", d3.forceX())
     .force("y", d3.forceY());
 
@@ -78,12 +82,13 @@ export function runForceGraph(
 
   const link = svg
     .append("g")
-    .attr("stroke", "#999")
     .attr("stroke-opacity", 0.6)
     .selectAll("line")
     .data(links)
     .join("line")
-    .attr("stroke-width", (d) => Math.sqrt(d.value));
+    .attr("stroke-width", "1px")
+    .attr("stroke", "#58595B")
+    .attr("marker-end", "url(#arrowhead)");
 
   const node = svg
     .append("g")
@@ -103,6 +108,8 @@ export function runForceGraph(
     .data(nodes)
     .enter()
     .append("text")
+    .style("text-anchor", "start")
+    .style("cursor", "pointer")
     .attr("dominant-baseline", "auto")
     .attr("class", (d) => `fa ${getClass(d)}`)
     .call(drag(simulation))
@@ -119,6 +126,7 @@ export function runForceGraph(
     .append("text")
     .attr("text-anchor", "start")
     .attr("dominant-baseline", "auto")
+    .attr("fill", "#58595B")
     .attr("class", (d) => `fa ${getClass(d)}`)
     .call(drag(simulation))
     .text(function (d) {
@@ -138,35 +146,42 @@ export function runForceGraph(
     });
 
   simulation.on("tick", () => {
+    // update node positions
+    node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
     //update link positions
     link
-      .attr("x1", (d) => d.source.x * 2)
-      .attr("y1", (d) => d.source.y * 2)
-      .attr("x2", (d) => d.target.x * 2)
-      .attr("y2", (d) => d.target.y * 2);
-
-    // update node positions
-    node.attr("cx", (d) => d.x * 2).attr("cy", (d) => d.y * 2);
+      .attr("x1", (d) => d.source.x)
+      .attr("y1", (d) => d.source.y)
+      .attr("x2", (d) => d.target.x)
+      .attr("y2", (d) => d.target.y);
 
     // update label positions
     node_label
-      .attr("x", (d) => {
-        return d.x * 2;
-      })
-      .attr("y", (d) => {
-        return d.y * 2;
-      });
-
-    link_label
       .attr("x", (d) => {
         return d.x;
       })
       .attr("y", (d) => {
         return d.y;
       });
+
+    link_label
+      .attr("x", function (d) {
+        if (d.target.x > d.source.x) {
+          return d.source.x + (d.target.x - d.source.x) / 2;
+        } else {
+          return d.target.x + (d.source.x - d.target.x) / 2;
+        }
+      })
+      .attr("y", function (d) {
+        if (d.target.y > d.source.y) {
+          return d.source.y + (d.target.y - d.source.y) / 2;
+        } else {
+          return d.target.y + (d.source.y - d.target.y) / 2;
+        }
+      });
   });
 
-  // focus on subset
+  // focus on subset of nodes and relationships
   function focus(event, d) {
     var index = d3.select(event.target).datum().index;
     node.style("opacity", function (o) {

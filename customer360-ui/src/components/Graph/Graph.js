@@ -2,24 +2,23 @@ import React from "react";
 import { runForceGraph } from "./GraphGenerator";
 import styles from "./Graph.module.css";
 
-export function ForceGraph({ linksData, nodesData, nodeHoverTooltip }) {
+export function ForceGraph({ data, nodeHoverTooltip }) {
   const containerRef = React.useRef(null);
 
   React.useEffect(() => {
+    console.log(data);
     let destroyFn;
-
     if (containerRef.current) {
-      const { destroy } = runForceGraph(containerRef.current, linksData, nodesData, nodeHoverTooltip);
+      const { destroy } = runForceGraph(
+        containerRef.current,
+        data,
+        nodeHoverTooltip
+      );
       destroyFn = destroy;
     }
 
     return destroyFn;
-  }, []);
+  }, [data, nodeHoverTooltip]);
 
-<<<<<<< Updated upstream
   return <div ref={containerRef} className={styles.container} />;
 }
-=======
-  return <div ref={containerRef} className={styles.container} style={{height:500}}/>;
-}
->>>>>>> Stashed changes

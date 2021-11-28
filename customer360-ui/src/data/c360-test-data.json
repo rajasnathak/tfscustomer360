@@ -1,0 +1,289 @@
+{
+  "head": {
+    "vars": ["s", "p", "o"]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/88165b30-92d9-49a0-a767-c3fd3094ffe0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "dbr:Customer"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/88165b30-92d9-49a0-a767-c3fd3094ffe0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:created"
+        },
+        "o": {
+          "type": "literal",
+          "value": "17-FEB-21 07.20.52.592000000 AM"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/88165b30-92d9-49a0-a767-c3fd3094ffe0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:tenant"
+        },
+        "o": {
+          "type": "literal",
+          "value": "t002"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/88165b30-92d9-49a0-a767-c3fd3094ffe0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:updated"
+        },
+        "o": {
+          "type": "literal",
+          "value": "28-SEP-21 10.38.51.290000000 AM"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/88165b30-92d9-49a0-a767-c3fd3094ffe0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:Account_number"
+        },
+        "o": {
+          "type": "literal",
+          "value": "9407"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/88165b30-92d9-49a0-a767-c3fd3094ffe0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:Business_unit"
+        },
+        "o": {
+          "type": "literal",
+          "value": "MZDAFIN"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/88165b30-92d9-49a0-a767-c3fd3094ffe0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:vin"
+        },
+        "o": {
+          "type": "literal",
+          "value": "1G1FG1R73J0183089"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/b10ba6ee-4eb5-416b-a439-cbd60941cadd"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "dbr:Customer"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/b10ba6ee-4eb5-416b-a439-cbd60941cadd"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:created"
+        },
+        "o": {
+          "type": "literal",
+          "value": "14-MAY-21 01.43.50.771000000 PM"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/b10ba6ee-4eb5-416b-a439-cbd60941cadd"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:tenant"
+        },
+        "o": {
+          "type": "literal",
+          "value": "t002"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/b10ba6ee-4eb5-416b-a439-cbd60941cadd"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:updated"
+        },
+        "o": {
+          "type": "literal",
+          "value": "08-OCT-21 11.14.15.832000000 AM"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/b10ba6ee-4eb5-416b-a439-cbd60941cadd"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:Account_number"
+        },
+        "o": {
+          "type": "literal",
+          "value": "162054"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/b10ba6ee-4eb5-416b-a439-cbd60941cadd"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:Business_unit"
+        },
+        "o": {
+          "type": "literal",
+          "value": "MZDAFIN"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/b10ba6ee-4eb5-416b-a439-cbd60941cadd"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:vin"
+        },
+        "o": {
+          "type": "literal",
+          "value": "JM3KFBDM2M1300212"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/e71e2655-9bf8-4564-ac71-a1766af23c0d"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "dbr:Customer"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/e71e2655-9bf8-4564-ac71-a1766af23c0d"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:created"
+        },
+        "o": {
+          "type": "literal",
+          "value": "07-OCT-20 07.28.01.407000000 AM"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/e71e2655-9bf8-4564-ac71-a1766af23c0d"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:tenant"
+        },
+        "o": {
+          "type": "literal",
+          "value": "t002"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/e71e2655-9bf8-4564-ac71-a1766af23c0d"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbo:updated"
+        },
+        "o": {
+          "type": "literal",
+          "value": "12-MAY-21 07.41.19.221000000 PM"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/e71e2655-9bf8-4564-ac71-a1766af23c0d"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:Account_number"
+        },
+        "o": {
+          "type": "literal",
+          "value": "344"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://data.example.com/party/e71e2655-9bf8-4564-ac71-a1766af23c0d"
+        },
+        "p": {
+          "type": "uri",
+          "value": "dbr:Business_unit"
+        },
+        "o": {
+          "type": "literal",
+          "value": "MZDAFIN"
+        }
+      }
+    ]
+  }
+}

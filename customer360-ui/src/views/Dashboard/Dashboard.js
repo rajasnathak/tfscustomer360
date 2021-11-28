@@ -43,7 +43,7 @@ import * as d3 from "d3";
 import { ForceGraph } from "../../components/Graph/Graph";
 
 // Import data
-import data from "../../data/data.json";
+import data from "../../data/c360-test-data.json";
 
 const useStyles = makeStyles(styles);
 
@@ -76,11 +76,10 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={8}>
           <Card>
-          <ForceGraph
-            linksData={data.links}
-            nodesData={data.nodes}
-            nodeHoverTooltip={nodeHoverTooltip}
-          />
+            <ForceGraph
+              data={data.results.bindings}
+              nodeHoverTooltip={nodeHoverTooltip}
+            />
           </Card>
         </GridItem>
       </GridContainer>

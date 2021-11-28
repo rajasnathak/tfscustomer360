@@ -1,19 +1,14 @@
 import * as d3 from "d3";
 import styles from "../../assets/css/graph-generator.css";
 
-export function runForceGraph(container, data, nodeHoverTooltip) {
+export function runForceGraph(container, graphData, nodeHoverTooltip) {
   // copy the data and get the container's width and height
-  const links = data.map((d) =>
+  const links = graphData.map((d) =>
     Object.assign({}, { source: d.s.value, target: d.o.value, name: d.p.value })
   );
-  const subject_nodes = data.map((d) =>
+  const nodes = graphData.map((d) =>
     Object.assign({}, { id: d.s.value, name: d.s.value })
   );
-  const object_nodes = data.map((d) =>
-    Object.assign({}, { id: d.o.value, name: d.o.value })
-  );
-
-  const nodes = subject_nodes.concat(object_nodes);
   var linkDistance = 200;
 
   const containerRect = container.getBoundingClientRect();

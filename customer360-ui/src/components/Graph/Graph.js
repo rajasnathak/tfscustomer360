@@ -2,23 +2,23 @@ import React from "react";
 import { runForceGraph } from "./GraphGenerator";
 import styles from "./Graph.module.css";
 
-export function ForceGraph({ data, nodeHoverTooltip }) {
+export function ForceGraph({ graphData, nodeHoverTooltip }) {
   const containerRef = React.useRef(null);
-
+  console.log(graphData);
   React.useEffect(() => {
-    console.log(data);
     let destroyFn;
+
     if (containerRef.current) {
       const { destroy } = runForceGraph(
         containerRef.current,
-        data,
+        graphData,
         nodeHoverTooltip
       );
       destroyFn = destroy;
     }
 
     return destroyFn;
-  }, [data, nodeHoverTooltip]);
+  }, [graphData, nodeHoverTooltip]);
 
   return <div ref={containerRef} className={styles.container} />;
 }

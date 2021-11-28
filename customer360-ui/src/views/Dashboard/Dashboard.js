@@ -77,7 +77,7 @@ export default function Dashboard() {
         <GridItem xs={8}>
           <Card>
             <ForceGraph
-              data={data.results.bindings}
+              graphData={data.results.bindings}
               nodeHoverTooltip={nodeHoverTooltip}
             />
           </Card>

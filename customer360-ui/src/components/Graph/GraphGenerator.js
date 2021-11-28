@@ -6,14 +6,18 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
   const links = graphData.map((d) =>
     Object.assign({}, { source: d.s.value, target: d.o.value, name: d.p.value })
   );
-  const nodes = graphData.map((d) =>
+  const subject_nodes = graphData.map((d) =>
     Object.assign({}, { id: d.s.value, name: d.s.value })
   );
+  const object_nodes = graphData.map((d) =>
+    Object.assign({}, { id: d.o.value, name: d.o.value })
+  );
+  const nodes = subject_nodes.concat(object_nodes);
   var linkDistance = 200;
 
   const containerRect = container.getBoundingClientRect();
-  const height = containerRect.height;
-  const width = containerRect.width;
+  const height = containerRect.height * 2;
+  const width = containerRect.width * 3;
 
   // helper functions
   // retrieve color for given node

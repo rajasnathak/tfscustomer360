@@ -8,7 +8,7 @@ import { Card } from "@material-ui/core";
 import { ForceGraph } from "../Graph/Graph";
 
 // Import data
-import data from "../../data/data.json";
+import data from "../../data/c360-test-data.json";
 
 export default function Home() {
   const nodeHoverTooltip = React.useCallback((node) => {
@@ -27,8 +27,7 @@ export default function Home() {
           <Card style={{ width: 600, height: "auto", marginTop: 80 }}>
             <CardContent>
               <ForceGraph
-                linksData={data.links}
-                nodesData={data.nodes}
+                graphData={data.results.bindings}
                 nodeHoverTooltip={nodeHoverTooltip}
               />
             </CardContent>

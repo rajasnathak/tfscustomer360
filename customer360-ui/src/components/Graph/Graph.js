@@ -2,7 +2,7 @@ import React from "react";
 import { runForceGraph } from "./GraphGenerator";
 import styles from "./Graph.module.css";
 
-export function ForceGraph({ graphData, nodeHoverTooltip }) {
+export default function ForceGraph({ graphData, nodeHoverTooltip }) {
   const containerRef = React.useRef(null);
   console.log(graphData);
   React.useEffect(() => {

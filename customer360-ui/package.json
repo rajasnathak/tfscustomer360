@@ -38,18 +38,6 @@
     "type": "git",
     "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
   },
-<<<<<<< Updated upstream
-  "keywords": [],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
-  },
-  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
-  "optionalDependencies": {
-    "@babel/core": "7.14.0",
-    "typescript": "4.2.4"
-=======
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -74,7 +62,6 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
     "reactstrap": "8.9.0"
->>>>>>> Stashed changes
   },
   "devDependencies": {
     "eslint-config-prettier": "8.3.0",

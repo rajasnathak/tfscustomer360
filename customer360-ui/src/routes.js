@@ -1,12 +1,12 @@
 /*!
 
 =========================================================
-* Material Dashboard React - v1.10.0
+* Argon Dashboard React - v1.2.1
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
 * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
 
 * Coded by Creative Tim
 
@@ -15,45 +15,36 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-// @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
+import Index from "views/Index.js";
+import Profile from "views/examples/Profile.js";
+import Maps from "views/examples/Maps.js";
+import Register from "views/examples/Register.js";
+import Login from "views/examples/Login.js";
+import Tables from "views/examples/Tables.js";
+import Icons from "views/examples/Icons.js";
+import Visualize from "views/visualize";
 
-// core components/views for Admin layout
-import DashboardPage from "views/Dashboard/Dashboard.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/TableList/TableList.js";
-import Typography from "views/Typography/Typography.js";
-const dashboardRoutes = [
+var routes = [
   {
-    path: "/dashboard",
+    path: "/index",
     name: "Home",
-    icon: Dashboard,
-    component: DashboardPage,
+    icon: "ni ni-tv-2 text-red",
+    component: Index,
     layout: "/admin",
   },
   {
-    path: "/user",
-    name: "User",
-    icon: Person,
-    component: UserProfile,
+    path: "/icons",
+    name: "Manage",
+    icon: "ni ni-planet text-red",
+    component: Icons,
     layout: "/admin",
   },
   {
-    path: "/table",
-    name: "Tools",
-    icon: "content_paste",
-    component: TableList,
-    layout: "/admin",
-  },
-  {
-    path: "/typography",
-    name: "Settings",
-    icon: LibraryBooks,
-    component: Typography,
+    path: "/visualize",
+    name: "Visualize",
+    icon: "ni ni-atom text-red",
+    component: Visualize,
     layout: "/admin",
   },
 ];
-
-export default dashboardRoutes;
+export default routes;

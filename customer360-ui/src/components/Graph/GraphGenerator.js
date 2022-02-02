@@ -1,29 +1,28 @@
 import * as d3 from "d3";
 import styles from "../../assets/css/graph-generator.css";
 
-export function runForceGraph(
-  container,
-  linksData,
-  nodesData,
-  nodeHoverTooltip
-) {
+export function runForceGraph(container, graphData, nodeHoverTooltip) {
   // copy the data and get the container's width and height
-  const links = linksData.map((d) => Object.assign({}, d));
-  const nodes = nodesData.map((d) => Object.assign({}, d));
+  const links = graphData.map((d) =>
+    Object.assign({}, { source: d.s.value, target: d.o.value, name: d.p.value })
+  );
+  const subject_nodes = graphData.map((d) =>
+    Object.assign({}, { id: d.s.value, name: d.s.value })
+  );
+  const object_nodes = graphData.map((d) =>
+    Object.assign({}, { id: d.o.value, name: d.o.value })
+  );
+  const nodes = subject_nodes.concat(object_nodes);
   var linkDistance = 200;
 
   const containerRect = container.getBoundingClientRect();
-  const height = containerRect.height;
-  const width = containerRect.width;
+  const height = containerRect.height * 2;
+  const width = containerRect.width * 3;
 
   // helper functions
   // retrieve color for given node
   const color = () => {
     return "#EB0A1E";
-  };
-
-  const icon = (d) => {
-    return d.gender === "male" ? "\uf222" : "\uf221";
   };
 
   const getClass = (d) => {
@@ -182,24 +181,24 @@ export function runForceGraph(
   });
 
   // focus on subset of nodes and relationships
-  function focus(event, d) {
-    var index = d3.select(event.target).datum().index;
-    node.style("opacity", function (o) {
-      return neigh(index, o.index) ? 1 : 0.1;
-    });
-    node_label.attr("display", function (o) {
-      return neigh(index, o.node.index) ? "block" : "none";
-    });
-    link.style("opacity", function (o) {
-      return o.source.index == index || o.target.index == index ? 1 : 0.1;
-    });
-  }
+  // function focus(event, d) {
+  //   var index = d3.select(event.target).datum().index;
+  //   node.style("opacity", function (o) {
+  //     return neigh(index, o.index) ? 1 : 0.1;
+  //   });
+  //   node_label.attr("display", function (o) {
+  //     return neigh(index, o.node.index) ? "block" : "none";
+  //   });
+  //   link.style("opacity", function (o) {
+  //     return o.source.index == index || o.target.index == index ? 1 : 0.1;
+  //   });
+  // }
 
-  function unfocus() {
-    node_label.attr("display", "block");
-    node.style("opacity", 1);
-    link.style("opacity", 1);
-  }
+  // function unfocus() {
+  //   node_label.attr("display", "block");
+  //   node.style("opacity", 1);
+  //   link.style("opacity", 1);
+  // }
 
   var adjlist = [];
 
@@ -207,9 +206,9 @@ export function runForceGraph(
     adjlist[d.source.index + "-" + d.target.index] = true;
     adjlist[d.target.index + "-" + d.source.index] = true;
   });
-  function neigh(a, b) {
-    return a == b || adjlist[a + "-" + b];
-  }
+  // function neigh(a, b) {
+  //   return a == b || adjlist[a + "-" + b];
+  // }
 
   // Add the tooltip element to the graph
   const tooltip = document.querySelector("#graph-tooltip");

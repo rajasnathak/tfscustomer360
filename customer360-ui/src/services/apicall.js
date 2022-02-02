@@ -21,7 +21,7 @@ export default class Form extends Component {
   }
   async handleSubmit(event) {
     event.preventDefault();
-    const { name } = this.state;
+    const { upid } = this.state;
     await axios.post(
       'https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod',
       { param: `${upid}` }

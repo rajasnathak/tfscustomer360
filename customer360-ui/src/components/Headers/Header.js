@@ -34,11 +34,13 @@ import {
 } from "reactstrap";
 import "./Header.css";
 import { withRouter } from "react-router";
+import React from "react";
+import APIForm from "services/apicall";
 
 const Header = (props) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    props.history.push("/admin/visualize");
+    history.push("/admin/visualize");
   };
   return (
     <>
@@ -46,7 +48,7 @@ const Header = (props) => {
         <Container fluid>
           <div className="header-body">
             <Row>
-              <div class=" col d-flex justify-content-center">
+              <div className=" col d-flex justify-content-center">
                 <img
                   alt="TFS Logo"
                   className="header-logo img-responsive center-block"
@@ -57,8 +59,8 @@ const Header = (props) => {
               </div>
             </Row>
             <Row>
-              <div class=" col d-flex justify-content-center">
-                <h3 class="center-block justify-content-center title">
+              <div className=" col d-flex justify-content-center">
+                <h3 className="center-block justify-content-center title">
                   CUSTOMER 360
                 </h3>
               </div>
@@ -84,10 +86,11 @@ const Header = (props) => {
                         />
                       </InputGroup>
                     </FormGroup>
-                    <Button class="btn" type="submit">
+                    <Button className="btn" type="submit">
                       Search
                     </Button>
                   </Form>
+                  <APIForm></APIForm>
                 </Card>
               </Col>
             </Row>

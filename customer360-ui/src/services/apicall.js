@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 
-export default class Form extends Component {
+export default class APIForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      upid: '',
+      upid: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -22,10 +22,18 @@ export default class Form extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { upid } = this.state;
-    await axios.post(
-      'https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod',
-      { param: `${upid}` }
+    let response = await axios.get(
+      "https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod/sparqlQuery",
+      {
+        params: {
+          host:
+            "database-1-instance-1.cxfekmmrk8o1.us-east-1.neptune.amazonaws.com:8182",
+          method: "GET",
+          query_type: "sparql/status",
+        },
+      }
     );
+    console.log(response);
   }
 
   render() {

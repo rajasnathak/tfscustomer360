@@ -29,7 +29,9 @@ export default class APIForm extends Component {
           host:
             "database-1-instance-1.cxfekmmrk8o1.us-east-1.neptune.amazonaws.com:8182",
           method: "GET",
-          query_type: "sparql/status",
+          query_type: "sparql",
+          search_param: "custID",
+          value: "0a38291c-2fc6-418b-bf5c-f8dbbad11c63",
         },
       }
     );

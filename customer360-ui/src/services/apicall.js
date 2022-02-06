@@ -24,7 +24,7 @@ export default class APIForm extends Component {
     const inputValue = event.target.value;
     const stateField = event.target.upid;
     this.setState({
-      [stateField]: inputValue,
+      upid: inputValue,
     });
     console.log(this.state);
   }
@@ -40,7 +40,7 @@ export default class APIForm extends Component {
           method: "GET",
           query_type: "sparql",
           search_param: "custID",
-          value: "0a38291c-2fc6-418b-bf5c-f8dbbad11c63",
+          value: this.state.upid,
         },
       }
     );
@@ -64,7 +64,7 @@ export default class APIForm extends Component {
               <Input
                 placeholder="Search for a customer"
                 type="text"
-                upid="UPID"
+                upid="upid"
                 onChange={this.handleChange}
                 value={this.state.upid}
               />

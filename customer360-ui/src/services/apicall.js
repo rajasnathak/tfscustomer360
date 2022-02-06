@@ -1,5 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
+import {
+  Button,
+  Form,
+  FormGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
+  InputGroup,
+} from "reactstrap";
 
 export default class APIForm extends Component {
   constructor(props) {
@@ -41,16 +50,30 @@ export default class APIForm extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>UPID:</label>
-          <input
-            type="text"
-            upid="UPID"
-            onChange={this.handleChange}
-            value={this.state.upid}
-          />
-          <button type="submit">Send</button>
-        </form>
+        <Form
+          className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
+          onSubmit={this.handleSubmit}
+        >
+          <FormGroup className="my-3 mx-3">
+            <InputGroup className="input-group-alternative">
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>
+                  <i className="fas fa-search" />
+                </InputGroupText>
+              </InputGroupAddon>
+              <Input
+                placeholder="Search for a customer"
+                type="text"
+                upid="UPID"
+                onChange={this.handleChange}
+                value={this.state.upid}
+              />
+            </InputGroup>
+          </FormGroup>
+          <Button className="btn" type="submit">
+            Search
+          </Button>
+        </Form>
       </div>
     );
   }

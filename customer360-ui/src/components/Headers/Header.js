@@ -69,27 +69,6 @@ const Header = (props) => {
             <Row>
               <Col>
                 <Card className="my-5 bg-transparent">
-                  <Form
-                    className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
-                    onSubmit={onSubmitHandler}
-                  >
-                    <FormGroup className="my-3 mx-3">
-                      <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="fas fa-search" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          placeholder="Search for a customer"
-                          type="text"
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                    <Button className="btn" type="submit">
-                      Search
-                    </Button>
-                  </Form>
                   <APIForm></APIForm>
                 </Card>
               </Col>

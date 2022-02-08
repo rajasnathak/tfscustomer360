@@ -9,8 +9,9 @@ import {
   Input,
   InputGroup,
 } from "reactstrap";
+import { withRouter } from "react-router";
 
-export default class APIForm extends Component {
+class APIForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +19,7 @@ export default class APIForm extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    // const { history } = this.props;
   }
 
   handleChange(event) {
@@ -44,7 +46,11 @@ export default class APIForm extends Component {
         },
       }
     );
-    console.log(response);
+    // console.log(response);
+    // eslint-disable-next-line react/prop-types
+    this.props.passToHeader(response);
+
+    // console.log(response);
   }
 
   render() {
@@ -77,4 +83,8 @@ export default class APIForm extends Component {
       </div>
     );
   }
+  // propTypes = {
+  //   passToHeader: this.PropTypes.Object,
+  // };
 }
+export default withRouter(APIForm);

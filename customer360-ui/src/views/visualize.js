@@ -17,11 +17,15 @@ import Header from "components/Headers/Header.js";
 // Import Graph
 import ForceGraph from "../components/Graph/Graph";
 // Import hard-coded data
-import data from "../data/c360-test-data.json";
+// import data from "../data/c360-test-data.json";
 // import styling
 import "../assets/css/visualize.css";
 
-const Visualize = () => {
+const Visualize = (props) => {
+  // eslint-disable-next-line react/prop-types
+  const state = JSON.parse(props.history.location.state);
+  const data = JSON.parse(state.data.data);
+  console.log(data);
   // Scroll to visualization view
   React.useEffect(() => {
     window.scrollTo({
@@ -38,11 +42,10 @@ const Visualize = () => {
       <Header />
       <div
         className="mt--9 container"
-        fluid
         style={{ width: "100%", height: "auto" }}
       >
         {
-          <div class="main-container">
+          <div className="main-container">
             <div>
               <h2>Customer Insights</h2>
             </div>

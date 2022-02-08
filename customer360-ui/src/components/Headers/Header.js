@@ -33,15 +33,26 @@ import {
   InputGroup,
 } from "reactstrap";
 import "./Header.css";
-import { withRouter } from "react-router";
 import React from "react";
 import APIForm from "services/apicall";
+// import { useHistory } from "react-router";
+import { withRouter } from "react-router";
+import { Route } from "react-router-dom/cjs/react-router-dom.min";
+// import { withRouter } from "react-router";
 
-const Header = (props) => {
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    history.push("/admin/visualize");
+// eslint-disable-next-line react/prop-types
+const Header = ({ history }) => {
+  // var history = useHistory();
+
+  let callbackFunction = (childData) => {
+    // props.history.push({
+    //   pathname: "/admin/visualize",
+    //   state: { data: childData },
+    // });
+    // eslint-disable-next-line react/prop-types
+    history.push("/admin/visualize", JSON.stringify({ data: childData }));
   };
+  // history.forward();
   return (
     <>
       <div className="header bg-gradient-toyota pb-9">
@@ -69,7 +80,7 @@ const Header = (props) => {
             <Row>
               <Col>
                 <Card className="my-5 bg-transparent">
-                  <APIForm></APIForm>
+                  <APIForm passToHeader={callbackFunction} />
                 </Card>
               </Col>
             </Row>

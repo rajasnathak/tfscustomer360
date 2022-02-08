@@ -4,13 +4,20 @@ import styles from "../../assets/css/graph-generator.css";
 export function runForceGraph(container, graphData, nodeHoverTooltip) {
   // copy the data and get the container's width and height
   const links = graphData.map((d) =>
-    Object.assign({}, { source: d.s.value, target: d.o.value, name: d.p.value })
+    Object.assign(
+      {},
+      {
+        source: d.subject.value,
+        target: d.object.value,
+        name: d.predicate.value,
+      }
+    )
   );
   const subject_nodes = graphData.map((d) =>
-    Object.assign({}, { id: d.s.value, name: d.s.value })
+    Object.assign({}, { id: d.subject.value, name: d.subject.value })
   );
   const object_nodes = graphData.map((d) =>
-    Object.assign({}, { id: d.o.value, name: d.o.value })
+    Object.assign({}, { id: d.object.value, name: d.object.value })
   );
   const nodes = subject_nodes.concat(object_nodes);
   var linkDistance = 200;

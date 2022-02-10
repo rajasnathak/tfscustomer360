@@ -10,6 +10,12 @@ import {
   InputGroup,
 } from "reactstrap";
 import { withRouter } from "react-router";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 class APIForm extends Component {
   constructor(props) {
@@ -22,14 +28,12 @@ class APIForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleParamChange = this.handleParamChange.bind(this);
 
-
-    // const { history } = this.props;
-  }
+}
   handleParamChange(event) {
-    const inputValue = event.target.value;
+    const inputParam = event.target.value;
 
     this.setState({
-      sparam: inputValue,
+      sparam: inputParam,
     });
     console.log(this.state);
   }
@@ -49,13 +53,11 @@ class APIForm extends Component {
       "https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod/sparqlQuery",
       {
         params: {
-          host:
-            "database-1-instance-1.cxfekmmrk8o1.us-east-1.neptune.amazonaws.com:8182",
-          method: "GET",
           query_type: "sparql",
           search_param: this.state.sparam,
           value: this.state.upid,
         },
+        
       }
     );
     // console.log(response);
@@ -70,15 +72,24 @@ class APIForm extends Component {
       <Form
           className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
           onSubmit={this.handleSubmit}
-        >     
-              <label>
-                Search For:  
-                  <select value={this.state.sparam} 
-                  onChange={this.handleParamChange}>            
-                  <option value="UPID">custID</option>
-                  <option value="Name">Name</option>
-                </select>
-              </label>
+        >    
+              <FormControl required sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-required-label">Search: </InputLabel>
+                <Select
+                  labelId="demo-simple-select-required-label"
+                  id="demo-simple-select-required"
+                  value={this.state.sparam}
+                  label="Select *"
+                  onChange={this.handleParamChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="upid">UPID</MenuItem>
+                  <MenuItem value="custName">Customer Name</MenuItem>
+                  <MenuItem value="accNo">Account No</MenuItem>
+                </Select>
+              </FormControl>
               <Input
                 placeholder="Search for a customer"
                 type="text"

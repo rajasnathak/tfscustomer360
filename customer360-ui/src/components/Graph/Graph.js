@@ -2,6 +2,7 @@ import React from "react";
 import { runForceGraph } from "./GraphGenerator";
 import styles from "./Graph.module.css";
 
+// eslint-disable-next-line react/prop-types
 export default function ForceGraph({ graphData, nodeHoverTooltip }) {
   const containerRef = React.useRef(null);
   console.log(graphData);

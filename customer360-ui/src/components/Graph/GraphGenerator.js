@@ -13,13 +13,19 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
       }
     )
   );
-  const subject_nodes = graphData.map((d) =>
+  const subject_nodes_init = graphData.map((d) =>
     Object.assign({}, { id: d.subject.value, name: d.subject.value })
   );
+  function removeDuplicates(arr) {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+  }
+  // remove duplicates
+  const subject_nodes = removeDuplicates(subject_nodes_init);
   const object_nodes = graphData.map((d) =>
     Object.assign({}, { id: d.object.value, name: d.object.value })
   );
   const nodes = subject_nodes.concat(object_nodes);
+  // console.log(nodes);
   var linkDistance = 200;
 
   const containerRect = container.getBoundingClientRect();
@@ -76,15 +82,18 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
     .force("x", d3.forceX())
     .force("y", d3.forceY());
 
+  var zoom;
   const svg = d3
     .select(container)
     .append("svg")
-    .attr("viewBox", [-width / 2, -height / 2, width, height])
+    .attr("viewBox", [-width / 2, -height / 2, width, height]);
+  svg
     .call(
-      d3.zoom().on("zoom", function (event) {
+      (zoom = d3.zoom().on("zoom", function (event) {
         svg.attr("transform", event.transform);
-      })
-    );
+      }))
+    )
+    .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1.5));
 
   const link = svg
     .append("g")
@@ -143,9 +152,9 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
   // Event handlers //
   //////////////
 
-  node_label
+  node
     .on("mouseover", (event, d) => {
-      addTooltip(nodeHoverTooltip, d, event.pageX, event.pageY);
+      addTooltip(nodeHoverTooltip, d, d.x, d.y);
     })
     .on("mouseout", () => {
       removeTooltip();
@@ -229,6 +238,7 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
   const div = d3.select("#graph-tooltip");
 
   const addTooltip = (hoverTooltip, d, x, y) => {
+    console.log(d.name);
     div.transition().duration(200).style("opacity", 0.9);
     div
       .html(hoverTooltip(d))

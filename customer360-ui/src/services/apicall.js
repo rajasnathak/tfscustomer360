@@ -49,6 +49,11 @@ class APIForm extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { upid } = this.state;
+    const headers = {
+      "host":
+        "database-1-instance-1.cxfekmmrk8o1.us-east-1.neptune.amazonaws.com:8182",
+      "method": "GET"
+    };
     let response = await axios.get(
       "https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod/sparqlQuery",
       {
@@ -57,6 +62,7 @@ class APIForm extends Component {
           search_param: this.state.sparam,
           value: this.state.upid,
         },
+        { headers: headers }
         
       }
     );

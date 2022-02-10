@@ -16,6 +16,7 @@
 
 */
 import { Link } from "react-router-dom";
+import { React } from "react";
 // reactstrap components
 import {
   UncontrolledCollapse,
@@ -28,6 +29,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import "../../assets/css/AuthNavbar.css";
 
 const AdminNavbar = () => {
   return (
@@ -55,6 +57,7 @@ const AdminNavbar = () => {
                       src={
                         require("../../assets/img/brand/toyota-red.png").default
                       }
+                      className="navbar-logo"
                     />
                   </Link>
                 </Col>

@@ -3,5 +3,9 @@
 }
 .title {
   font-family: "Avenir Black", "Arial Black", sans-serif;
-  font-size: 10vw;
+  font-size: 8vw;
+}
+
+.header-logo {
+  max-width: 15vw;
 }

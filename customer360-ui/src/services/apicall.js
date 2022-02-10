@@ -28,12 +28,14 @@ class APIForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleParamChange = this.handleParamChange.bind(this);
 
-}
+
+    // const { history } = this.props;
+  }
   handleParamChange(event) {
-    const inputParam = event.target.value;
+    const inputValue = event.target.value;
 
     this.setState({
-      sparam: inputParam,
+      sparam: inputValue,
     });
     console.log(this.state);
   }
@@ -62,9 +64,8 @@ class APIForm extends Component {
           search_param: this.state.sparam,
           value: this.state.upid,
         },
-        { headers: headers }
-        
-      }
+      },
+      { headers: headers }
     );
     // console.log(response);
     // eslint-disable-next-line react/prop-types

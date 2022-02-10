@@ -16,15 +16,27 @@ class APIForm extends Component {
     super(props);
     this.state = {
       upid: "",
+      sparam: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleParamChange = this.handleParamChange.bind(this);
+
+
     // const { history } = this.props;
   }
+  handleParamChange(event) {
+    const inputValue = event.target.value;
 
+    this.setState({
+      sparam: inputValue,
+    });
+    console.log(this.state);
+  }
+  
   handleChange(event) {
     const inputValue = event.target.value;
-    const stateField = event.target.upid;
+
     this.setState({
       upid: inputValue,
     });
@@ -43,7 +55,7 @@ class APIForm extends Component {
       {
         params: {
           query_type: "sparql",
-          search_param: "custID",
+          search_param: this.state.sparam,
           value: this.state.upid,
         },
       },
@@ -58,18 +70,18 @@ class APIForm extends Component {
 
   render() {
     return (
-      <div>
-        <Form
+      <Form
           className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
           onSubmit={this.handleSubmit}
-        >
-          <FormGroup className="my-3 mx-3">
-            <InputGroup className="input-group-alternative">
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <i className="fas fa-search" />
-                </InputGroupText>
-              </InputGroupAddon>
+        >     
+              <label>
+                Search For:  
+                  <select value={this.state.sparam} 
+                  onChange={this.handleParamChange}>            
+                  <option value="UPID">custID</option>
+                  <option value="Name">Name</option>
+                </select>
+              </label>
               <Input
                 placeholder="Search for a customer"
                 type="text"
@@ -77,13 +89,10 @@ class APIForm extends Component {
                 onChange={this.handleChange}
                 value={this.state.upid}
               />
-            </InputGroup>
-          </FormGroup>
           <Button className="btn" type="submit">
             Search
           </Button>
         </Form>
-      </div>
     );
   }
   // propTypes = {

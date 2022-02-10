@@ -63,8 +63,7 @@ const Index = (props) => {
       <Header />
       {/* Page content */}
       <Container className="mt--9" fluid>
-        <Row>
-          <Col className="mb-5 mb-xl-0" xl="8">
+          
             <Card className="bg-secondary.bg-gradient shadow">
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
@@ -116,31 +115,6 @@ const Index = (props) => {
                 </div>
               </CardBody>
             </Card>
-          </Col>
-          <Col xl="4">
-            <Card className="shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-muted ls-1 mb-1">
-                      Performance
-                    </h6>
-                    <h2 className="mb-0">Total orders</h2>
-                  </div>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Bar
-                    data={chartExample2.data}
-                    options={chartExample2.options}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
       </Container>
     </>
   );

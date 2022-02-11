@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  Button,
-  Form,
-  Input,
-}
-from "reactstrap";
+import { Button, Form, Input } from "reactstrap";
 import { withRouter } from "react-router";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import "../assets/css/apicall.css";
 
 class APIForm extends Component {
   constructor(props) {
@@ -24,7 +19,6 @@ class APIForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleParamChange = this.handleParamChange.bind(this);
 
-
     // const { history } = this.props;
   }
   handleParamChange(event) {
@@ -35,7 +29,7 @@ class APIForm extends Component {
     });
     console.log(this.state);
   }
-  
+
   handleChange(event) {
     const inputValue = event.target.value;
 
@@ -48,20 +42,18 @@ class APIForm extends Component {
     event.preventDefault();
     const { upid } = this.state;
     const headers = {
-      "host":
-        "database-1-instance-1.cxfekmmrk8o1.us-east-1.neptune.amazonaws.com:8182",
-      "method": "GET"
+      method: "GET",
     };
     let response = await axios.get(
       "https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod/sparqlQuery",
       {
+        headers: headers,
         params: {
           query_type: "sparql",
           search_param: this.state.sparam,
           value: this.state.upid,
         },
-      },
-      { headers: headers }
+      }
     );
     // console.log(response);
     // eslint-disable-next-line react/prop-types
@@ -73,37 +65,39 @@ class APIForm extends Component {
   render() {
     return (
       <Form
-          className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
-          onSubmit={this.handleSubmit}
-        >    
-              <FormControl required sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-required-label">Search: </InputLabel>
-                <Select
-                  labelId="demo-simple-select-required-label"
-                  id="demo-simple-select-required"
-                  value={this.state.sparam}
-                  label="Select *"
-                  onChange={this.handleParamChange}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value="upid">UPID</MenuItem>
-                  <MenuItem value="custName">Customer Name</MenuItem>
-                  <MenuItem value="accNo">Account No</MenuItem>
-                </Select>
-              </FormControl>
-              <Input
-                placeholder="Search for a customer"
-                type="text"
-                upid="upid"
-                onChange={this.handleChange}
-                value={this.state.upid}
-              />
-          <Button className="btn" type="submit">
-            Search
-          </Button>
-        </Form>
+        className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
+        onSubmit={this.handleSubmit}
+      >
+        <FormControl required sx={{ m: 1, minWidth: 150 }} id="search_param">
+          <InputLabel id="demo-simple-select-required-label">
+            Search:{" "}
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-required-label"
+            id="demo-simple-select-required"
+            value={this.state.sparam}
+            label="Select *"
+            onChange={this.handleParamChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="upid">UPID</MenuItem>
+            <MenuItem value="custName">Customer Name</MenuItem>
+            <MenuItem value="accNo">Account No</MenuItem>
+          </Select>
+        </FormControl>
+        <Input
+          placeholder="Search for a customer"
+          type="text"
+          upid="upid"
+          onChange={this.handleChange}
+          value={this.state.upid}
+        />
+        <Button className="btn m-2" type="submit">
+          Search
+        </Button>
+      </Form>
     );
   }
   // propTypes = {

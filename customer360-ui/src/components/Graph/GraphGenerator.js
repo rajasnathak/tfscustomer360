@@ -13,18 +13,25 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
       }
     )
   );
-  const subject_nodes_init = graphData.map((d) =>
+  const subject_nodes = graphData.map((d) =>
     Object.assign({}, { id: d.subject.value, name: d.subject.value })
   );
-  function removeDuplicates(arr) {
-    return arr.filter((item, index) => arr.indexOf(item) === index);
-  }
+
   // remove duplicates
-  const subject_nodes = removeDuplicates(subject_nodes_init);
+  const uniqueValuesSet = new Set();
+  const unique_subject_nodes = subject_nodes.filter((obj) => {
+    const isPresentInSet = uniqueValuesSet.has(obj.name);
+
+    uniqueValuesSet.add(obj.name);
+
+    return !isPresentInSet;
+  });
+  console.log(unique_subject_nodes);
+
   const object_nodes = graphData.map((d) =>
     Object.assign({}, { id: d.object.value, name: d.object.value })
   );
-  const nodes = subject_nodes.concat(object_nodes);
+  const nodes = unique_subject_nodes.concat(object_nodes);
   // console.log(nodes);
   var linkDistance = 200;
 
@@ -93,7 +100,7 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
         svg.attr("transform", event.transform);
       }))
     )
-    .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1.5));
+    .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(3));
 
   const link = svg
     .append("g")

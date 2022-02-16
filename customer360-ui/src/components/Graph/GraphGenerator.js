@@ -36,8 +36,9 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
   var linkDistance = 200;
 
   const containerRect = container.getBoundingClientRect();
-  const height = containerRect.height * 2;
-  const width = containerRect.width * 3;
+  const height = containerRect.height;
+  const width = containerRect.width;
+  const radius = 24;
 
   // helper functions
   // retrieve color for given node
@@ -86,21 +87,22 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
         .distance(linkDistance)
     )
     .force("charge", d3.forceManyBody().strength(-1000))
-    .force("x", d3.forceX())
-    .force("y", d3.forceY());
+    .force("x", d3.forceX(width / 2))
+    .force("y", d3.forceY(height / 2));
 
   var zoom;
   const svg = d3
     .select(container)
     .append("svg")
-    .attr("viewBox", [-width / 2, -height / 2, width, height]);
-  svg
-    .call(
-      (zoom = d3.zoom().on("zoom", function (event) {
-        svg.attr("transform", event.transform);
-      }))
-    )
-    .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(3));
+    .attr("width", width)
+    .attr("height", height);
+  // svg
+  //   .call(
+  //     (zoom = d3.zoom().on("zoom", function (event) {
+  //       svg.attr("transform", event.transform);
+  //     }))
+  //   )
+  //   .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(3));
 
   const link = svg
     .append("g")
@@ -119,7 +121,7 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
     .selectAll("circle")
     .data(nodes)
     .join("circle")
-    .attr("r", 12)
+    .attr("r", radius)
     .attr("fill", color)
     .call(drag(simulation));
 
@@ -130,10 +132,10 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
     .data(nodes)
     .enter()
     .append("text")
-    .style("text-anchor", "start")
+    .style("text-anchor", "middle")
     .style("cursor", "pointer")
-    .attr("dominant-baseline", "auto")
-    .attr("class", (d) => `fa ${getClass(d)}`)
+    .attr("class", "node-label")
+    .attr("dominant-baseline", "middle")
     .call(drag(simulation))
     .text(function (d) {
       return d.name;
@@ -169,7 +171,14 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
 
   simulation.on("tick", () => {
     // update node positions
-    node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+    // node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+    node
+      .attr("cx", function (d) {
+        return (d.x = Math.max(radius, Math.min(width - radius, d.x)));
+      })
+      .attr("cy", function (d) {
+        return (d.y = Math.max(radius, Math.min(height - radius, d.y)));
+      });
     //update link positions
     link
       .attr("x1", (d) => d.source.x)

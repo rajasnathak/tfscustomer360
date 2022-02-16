@@ -35,3 +35,10 @@ div.tooltip {
   border-radius: 8px;
   pointer-events: none;
 }
+
+.node-label {
+  font-weight: 800;
+  font-family: "Avenir Black", "Arial Black", sans-serif;
+  color: black;
+  background-color: #fff;
+}

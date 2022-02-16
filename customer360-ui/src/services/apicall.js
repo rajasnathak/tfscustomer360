@@ -83,8 +83,9 @@ class APIForm extends Component {
               <em>None</em>
             </MenuItem>
             <MenuItem value="upid">UPID</MenuItem>
-            <MenuItem value="custName">Customer Name</MenuItem>
+            <MenuItem value="name">Customer Name</MenuItem>
             <MenuItem value="accNo">Account No</MenuItem>
+            <MenuItem value="vin">VIN</MenuItem>
           </Select>
         </FormControl>
         <Input

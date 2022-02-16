@@ -40,10 +40,7 @@ const Visualize = (props) => {
   return (
     <>
       <Header />
-      <div
-        className="mt--9 container"
-        style={{ width: "100%", height: "auto" }}
-      >
+      <div className="mt--9 " style={{ width: "100%", height: "80%" }}>
         {
           <div className="main-container">
             <div>

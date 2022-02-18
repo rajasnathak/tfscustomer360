@@ -1,40 +1,106 @@
 import * as d3 from "d3";
 import styles from "../../assets/css/graph-generator.css";
+import { v4 as uuidv4 } from "uuid";
 
-export function runForceGraph(container, graphData, nodeHoverTooltip) {
+export function runForceGraph(
+  container,
+  graphData,
+  searchParams,
+  nodeHoverTooltip
+) {
+  console.log(searchParams);
+  // Apply UIDs to nodes
+  let uniqueSubjectUuids = new Map();
+  let uniqueObjectUuids = new Map();
+  const setuids = (graphData) => {
+    graphData = graphData.map((d) => {
+      let subjectUuid = "";
+      let objectUuid = "";
+      // If map doesn't have this subject value, set new UUID
+      if (!uniqueSubjectUuids.has(d.subject.value))
+        uniqueSubjectUuids.set(d.subject.value, uuidv4());
+      // If map DOES have it, we set the subject UID to be the same
+      subjectUuid = uniqueSubjectUuids.get(d.subject.value);
+      // We want to connect on the search paramater, so make them have the same UID
+      // If the predicate is a search parameter
+      if (searchParams.includes(d.predicate.value)) {
+        // If the object map
+        if (!uniqueObjectUuids.has(d.object.value))
+          uniqueObjectUuids.set(d.object.value, uuidv4());
+        // If map DOES have this object, apply the same UUID
+        objectUuid = uniqueObjectUuids.get(d.object.value);
+      }
+      // If not a search parameter, provide a unique identifer to the object node
+      else objectUuid = uuidv4();
+
+      return Object.assign(
+        {},
+        {
+          subject: {
+            type: d.subject.type,
+            value: d.subject.value,
+            id: subjectUuid,
+          },
+          predicate: {
+            type: d.predicate.type,
+            value: d.predicate.value,
+            id: uuidv4(),
+          },
+          object: {
+            type: d.object.type,
+            value: d.object.value,
+            id: objectUuid,
+          },
+        }
+      );
+    });
+    // console.log(uniqueSubjectUuids);
+    return graphData;
+  };
+
+  const removeDuplicates = (nodes, type) => {
+    /* Each triple returns an additional subject, but we only need one subject
+    connected to each object node*/
+    const uniqueValuesSet = new Set();
+    const unique_subject_nodes = nodes.filter((obj) => {
+      const isPresentInSet = uniqueValuesSet.has(obj.name);
+      uniqueValuesSet.add(obj.name);
+
+      if (type == "object")
+        return !(isPresentInSet && uniqueObjectUuids.has(obj.name));
+      else return !isPresentInSet;
+    });
+    return unique_subject_nodes;
+  };
+  graphData = setuids(graphData);
   // copy the data and get the container's width and height
   const links = graphData.map((d) =>
     Object.assign(
       {},
       {
-        source: d.subject.value,
-        target: d.object.value,
+        source: d.subject.id,
+        target: d.object.id,
         name: d.predicate.value,
       }
     )
   );
-  const subject_nodes = graphData.map((d) =>
-    Object.assign({}, { id: d.subject.value, name: d.subject.value })
+  // console.log(links);
+  let subject_nodes = graphData.map((d) =>
+    Object.assign({}, { id: d.subject.id, name: d.subject.value })
   );
 
-  // remove duplicates
-  const uniqueValuesSet = new Set();
-  const unique_subject_nodes = subject_nodes.filter((obj) => {
-    const isPresentInSet = uniqueValuesSet.has(obj.name);
+  /* remove duplicate subject nodes */
+  subject_nodes = removeDuplicates(subject_nodes, "subject");
 
-    uniqueValuesSet.add(obj.name);
-
-    return !isPresentInSet;
-  });
-  console.log(unique_subject_nodes);
-
-  const object_nodes = graphData.map((d) =>
-    Object.assign({}, { id: d.object.value, name: d.object.value })
+  let object_nodes = graphData.map((d) =>
+    Object.assign({}, { id: d.object.id, name: d.object.value })
   );
-  const nodes = unique_subject_nodes.concat(object_nodes);
-  // console.log(nodes);
-  var linkDistance = 200;
+  /* remove duplicate subject nodes */
+  object_nodes = removeDuplicates(object_nodes, "object");
 
+  const nodes = subject_nodes.concat(object_nodes);
+
+  const linkDistance = 200;
   const containerRect = container.getBoundingClientRect();
   const height = containerRect.height;
   const width = containerRect.width;
@@ -86,7 +152,8 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
         .id((d) => d.id)
         .distance(linkDistance)
     )
-    .force("charge", d3.forceManyBody().strength(-1000))
+    // Apply to all nodes. Negative value is repulsion, positive is attraction
+    .force("charge", d3.forceManyBody().strength(-900))
     .force("x", d3.forceX(width / 2))
     .force("y", d3.forceY(height / 2));
 
@@ -116,14 +183,17 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
 
   const node = svg
     .append("g")
-    .attr("stroke", "#fff")
-    .attr("stroke-width", 2)
+    // .attr("stroke", "#fff")
+    // .attr("stroke-width", 2)
     .selectAll("circle")
     .data(nodes)
     .join("circle")
+    .attr("class", "node")
     .attr("r", radius)
     .attr("fill", color)
-    .call(drag(simulation));
+    .call(drag(simulation))
+    .on("mouseover", mouseover)
+    .on("mouseout", mouseout);
 
   const node_label = svg
     .append("g")
@@ -151,7 +221,6 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
     .attr("text-anchor", "start")
     .attr("dominant-baseline", "auto")
     .attr("fill", "#58595B")
-    .attr("class", (d) => `fa ${getClass(d)}`)
     .call(drag(simulation))
     .text(function (d) {
       return d.name;
@@ -161,13 +230,7 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
   // Event handlers //
   //////////////
 
-  node
-    .on("mouseover", (event, d) => {
-      addTooltip(nodeHoverTooltip, d, d.x, d.y);
-    })
-    .on("mouseout", () => {
-      removeTooltip();
-    });
+  // node.on("mouseover", mouseover).on("mouseout", mouseout);
 
   simulation.on("tick", () => {
     // update node positions
@@ -233,11 +296,13 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
   // }
 
   var adjlist = [];
-
+  console.log(links);
   links.forEach(function (d) {
     adjlist[d.source.index + "-" + d.target.index] = true;
     adjlist[d.target.index + "-" + d.source.index] = true;
   });
+  // console.log(adjlist);
+
   // function neigh(a, b) {
   //   return a == b || adjlist[a + "-" + b];
   // }
@@ -254,7 +319,7 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
   const div = d3.select("#graph-tooltip");
 
   const addTooltip = (hoverTooltip, d, x, y) => {
-    console.log(d.name);
+    // console.log(d.name);
     div.transition().duration(200).style("opacity", 0.9);
     div
       .html(hoverTooltip(d))
@@ -275,4 +340,37 @@ export function runForceGraph(container, graphData, nodeHoverTooltip) {
       return svg.node();
     },
   };
+
+  function neighboring(a, b) {
+    // console.log(a.index);
+    // console.log(b.index);
+    return a == b || adjlist[a.index + "-" + b.index];
+  }
+
+  function mouseover(d) {
+    // console.log(d.target.__data__);
+    d3.selectAll(".node").style("stroke", "black");
+    d3.selectAll(".link").style("stroke", "black").style("stroke-width", 4);
+    d3.selectAll(".link")
+      .transition()
+      .duration(500)
+      .style("opacity", function (o) {
+        return o.source === d || o.target === d ? 1 : 0.1;
+      });
+
+    d3.selectAll(".node")
+      .transition()
+      .duration(500)
+      .style("opacity", function (o) {
+        // console.log(o);
+        return neighboring(d.target.__data__, o) ? 1 : 0.1;
+      });
+  }
+
+  function mouseout() {
+    d3.selectAll(".node").style("stroke", "white");
+    d3.selectAll(".link").style("stroke", "grey").style("stroke-width", 1);
+    d3.selectAll(".link").transition().duration(500).style("opacity", 1);
+    d3.selectAll(".node").transition().duration(500).style("opacity", 1);
+  }
 }

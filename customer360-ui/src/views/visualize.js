@@ -25,7 +25,7 @@ const Visualize = (props) => {
   // eslint-disable-next-line react/prop-types
   const state = JSON.parse(props.history.location.state);
   const data = JSON.parse(state.data.data);
-  console.log(data);
+  const searchParams = state.searchParams;
   // Scroll to visualization view
   React.useEffect(() => {
     window.scrollTo({
@@ -50,6 +50,7 @@ const Visualize = (props) => {
               <CardBody>
                 <ForceGraph
                   graphData={data.results.bindings}
+                  searchParams={searchParams}
                   nodeHoverTooltip={nodeHoverTooltip}
                 />
               </CardBody>

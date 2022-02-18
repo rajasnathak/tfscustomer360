@@ -70,7 +70,7 @@ class APIForm extends Component {
     );
     // console.log(response);
     // eslint-disable-next-line react/prop-types
-    this.props.passToHeader(response);
+    this.props.passToHeader(response, [this.state.sparam]);
 
     // console.log(response);
   }
@@ -136,8 +136,5 @@ class APIForm extends Component {
       </Form>
     );
   }
-  // propTypes = {
-  //   passToHeader: this.PropTypes.Object,
-  // };
 }
 export default withRouter(APIForm);

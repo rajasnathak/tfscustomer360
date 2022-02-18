@@ -44,13 +44,18 @@ import { Route } from "react-router-dom/cjs/react-router-dom.min";
 const Header = ({ history }) => {
   // var history = useHistory();
 
-  let callbackFunction = (childData) => {
+  let callbackFunction = (response, searchParams) => {
+    console.log(response);
+    console.log(searchParams);
     // props.history.push({
     //   pathname: "/admin/visualize",
     //   state: { data: childData },
     // });
     // eslint-disable-next-line react/prop-types
-    history.push("/admin/visualize", JSON.stringify({ data: childData }));
+    history.push(
+      "/admin/visualize",
+      JSON.stringify({ data: response, searchParams: searchParams })
+    );
   };
   // history.forward();
   return (

@@ -7,15 +7,19 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import "../assets/css/apicall.css";
+import { Multiselect } from "multiselect-react-dropdown";
+
 
 class APIForm extends Component {
   constructor(props) {
+  // this.multiselectRef = React.createRef();
     super(props);
     this.state = {
       upid: "",
       sparam: "",
       isOrg: false,
       isName: false,
+      plainArray: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -36,12 +40,16 @@ class APIForm extends Component {
     this.setState((initialState) => ({
       isOrg: !initialState.isOrg,
     }));
-  };
-  onChangeName = () => {
-    this.setState((initialState) => ({
-      isName: !initialState.isName,
-    }));
-  };
+ }
+ onChangeName = () => {
+  this.setState(initialState => ({
+    isName: !initialState.isName,
+  }));
+}
+
+onSelect = () => {
+  this.getSelectedValues();
+}
 
   handleChange(event) {
     const inputValue = event.target.value;
@@ -76,12 +84,13 @@ class APIForm extends Component {
   }
 
   render() {
+    const { plainArray }  = this.state;
     return (
       <Form
         className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
         onSubmit={this.handleSubmit}
       >
-        <div className="form-check">
+{/*         <div className="form-check">
           <label className="form-check-label">
             <input
               type="checkbox"
@@ -102,7 +111,14 @@ class APIForm extends Component {
             />
             Name
           </label>
-        </div>
+        </div> */}
+            <Multiselect 
+            showArrow options={plainArray} 
+            isObject={false} 
+            //onSelect={this.onSelect}
+            />
+      
+        
         <FormControl required sx={{ m: 1, minWidth: 150 }} id="search_param">
           <InputLabel id="demo-simple-select-required-label">
             Search:{" "}
@@ -114,13 +130,13 @@ class APIForm extends Component {
             label="Select *"
             onChange={this.handleParamChange}
           >
-            <MenuItem value="">
+             <MenuItem value="">
               <em>None</em>
             </MenuItem>
             <MenuItem value="upid">UPID</MenuItem>
-            <MenuItem value="name">Customer Name</MenuItem>
+            <MenuItem value="custName">Customer Name</MenuItem>
             <MenuItem value="accNo">Account No</MenuItem>
-            <MenuItem value="vin">VIN</MenuItem>
+            <MenuItem value="vin">VIN</MenuItem> 
           </Select>
         </FormControl>
         <Input

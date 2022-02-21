@@ -32,7 +32,6 @@ import {
   Nav,
   Container,
   Row,
-  Col,
 } from "reactstrap";
 
 // core components
@@ -40,8 +39,8 @@ import {
   chartOptions,
   parseOptions,
   chartExample1,
-  chartExample2,
-} from "variables/charts.js";
+}
+ from "variables/charts.js";
 
 import Header from "components/Headers/Header.js";
 

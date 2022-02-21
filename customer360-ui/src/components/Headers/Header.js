@@ -18,19 +18,10 @@
 
 // reactstrap components
 import {
-  Button,
   Card,
-  CardBody,
-  CardTitle,
   Container,
   Row,
   Col,
-  Form,
-  FormGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  InputGroup,
 } from "reactstrap";
 import "../../assets/css/Header.css";
 import React from "react";
@@ -65,6 +56,7 @@ const Header = ({ history }) => {
           <div className="header-body">
             <Row>
               <div className=" col d-flex justify-content-center">
+                <a href =  "/admin/index">
                 <img
                   alt="TFS Logo"
                   className="header-logo img-responsive center-block"
@@ -72,6 +64,7 @@ const Header = ({ history }) => {
                     require("../../assets/img/brand/TFS-logo-white.png").default
                   }
                 ></img>
+                 </a>
               </div>
             </Row>
             <Row>

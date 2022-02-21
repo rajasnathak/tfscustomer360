@@ -45,17 +45,21 @@ const Header = ({ history }) => {
   // var history = useHistory();
 
   let callbackFunction = (response, searchParams) => {
-    console.log(response);
-    console.log(searchParams);
-    // props.history.push({
-    //   pathname: "/admin/visualize",
-    //   state: { data: childData },
-    // });
-    // eslint-disable-next-line react/prop-types
-    history.push(
-      "/admin/visualize",
-      JSON.stringify({ data: response, searchParams: searchParams })
-    );
+    let results = JSON.parse(response.data).results.bindings;
+    console.log(results);
+    if (results.length == 0) {
+      history.push(
+        "/admin/visualize",
+        JSON.stringify({ data: null, searchParams: searchParams })
+      );
+      window.location.reload();
+    } else {
+      history.push(
+        "/admin/visualize",
+        JSON.stringify({ data: response, searchParams: searchParams })
+      );
+      window.location.reload();
+    }
   };
   // history.forward();
   return (

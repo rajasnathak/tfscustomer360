@@ -4,3 +4,10 @@
   alignitems: "center";
   flex-direction: column;
 }
+
+#error-container {
+  display: "flex";
+  justify-content: "center";
+  alignitems: "center";
+  flex-direction: column;
+}

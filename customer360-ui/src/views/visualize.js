@@ -23,9 +23,16 @@ import "../assets/css/visualize.css";
 
 const Visualize = (props) => {
   // eslint-disable-next-line react/prop-types
+  let dataReceived = true;
   const state = JSON.parse(props.history.location.state);
-  const data = JSON.parse(state.data.data);
-  const searchParams = state.searchParams;
+  let data = "";
+  let searchParams = state.searchParams;
+  // Check if data was sent
+  if (state.data == null) dataReceived = false;
+  else {
+    data = JSON.parse(state.data.data);
+  }
+
   // Scroll to visualization view
   React.useEffect(() => {
     window.scrollTo({
@@ -46,15 +53,27 @@ const Visualize = (props) => {
             <div>
               <h2>Customer Insights</h2>
             </div>
-            <Card style={{ width: "100%", height: "auto", marginTop: 80 }}>
-              <CardBody>
-                <ForceGraph
-                  graphData={data.results.bindings}
-                  searchParams={searchParams}
-                  nodeHoverTooltip={nodeHoverTooltip}
-                />
-              </CardBody>
-            </Card>
+            {dataReceived == true ? (
+              <Card style={{ width: "100%", height: "auto", marginTop: 80 }}>
+                <CardBody>
+                  <ForceGraph
+                    graphData={data.results.bindings}
+                    searchParams={searchParams}
+                    nodeHoverTooltip={nodeHoverTooltip}
+                  />
+                </CardBody>
+              </Card>
+            ) : (
+              <Card style={{ width: "100%", height: "auto", marginTop: 80 }}>
+                <div id="error-container">
+                  <h2>
+                    {" "}
+                    Sorry, no data was available for the provided {searchParams}
+                    .
+                  </h2>
+                </div>
+              </Card>
+            )}
           </div>
         }
       </div>

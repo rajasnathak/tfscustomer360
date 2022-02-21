@@ -191,6 +191,7 @@ export function runForceGraph(
     .attr("class", "node")
     .attr("r", radius)
     .attr("fill", color)
+    .style("cursor", "pointer")
     .call(drag(simulation))
     .on("mouseover", mouseover)
     .on("mouseout", mouseout);
@@ -203,8 +204,8 @@ export function runForceGraph(
     .enter()
     .append("text")
     .style("text-anchor", "middle")
-    .style("cursor", "pointer")
     .attr("class", "node-label")
+    .style("cursor", "default")
     .attr("dominant-baseline", "middle")
     .call(drag(simulation))
     .text(function (d) {

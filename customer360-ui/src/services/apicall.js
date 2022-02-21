@@ -19,7 +19,7 @@ class APIForm extends Component {
       sparam: "",
       isOrg: false,
       isName: false,
-      plainArray: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+      plainArray: ["Party", "Asset", "Alternate ID", "Borrower", "Product"],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);

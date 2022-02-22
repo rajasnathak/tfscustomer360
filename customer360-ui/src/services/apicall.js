@@ -6,6 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Select1 from 'react-select';
 import "../assets/css/apicall.css";
 import { Multiselect } from "multiselect-react-dropdown";
 
@@ -17,16 +18,31 @@ class APIForm extends Component {
     this.state = {
       upid: "",
       sparam: "",
-      isOrg: false,
-      isName: false,
-      plainArray: ["Party", "Asset", "Alternate ID", "Borrower", "Product"],
+      filters: [],
+      filterOptions: [
+        { value: "party", label: "Party" },
+        { value: "asset", label: "Asset" },
+        { value: "altid", label: "Alternate ID" },
+        { value: "borrower", label: "Borrower" },
+        { value: "product", label: "Product" },
+
+      ],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleParamChange = this.handleParamChange.bind(this);
-
+    this.handleMultiChange = this.handleMultiChange.bind(this);
     // const { history } = this.props;
   }
+
+  handleMultiChange(option) {
+    this.setState(state => {
+      return {
+        filters: option
+      };
+    });
+  }
+  
   handleParamChange(event) {
     const inputValue = event.target.value;
 
@@ -84,46 +100,34 @@ onSelect = () => {
   }
 
   render() {
-    const { plainArray }  = this.state;
     return (
       <Form
         className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
         onSubmit={this.handleSubmit}
       >
-{/*         <div className="form-check">
-          <label className="form-check-label">
-            <input
-              type="checkbox"
-              checked={this.state.isOrg}
-              onChange={this.onChangeOrg}
-              className="form-check-input"
-            />
-            Org
-          </label>
-        </div>
-        <div className="form-check">
-          <label className="form-check-label">
-            <input
-              type="checkbox"
-              checked={this.state.isName}
-              onChange={this.onChangeName}
-              className="form-check-input"
-            />
-            Name
-          </label>
-        </div> */}
-            <Multiselect 
+            {/* <Multiselect 
             showArrow options={plainArray} 
             isObject={false} 
             //onSelect={this.onSelect}
-            />
+            /> */}
+            
+            
+        <Select1
+          name="filters"
+          placeholder="Filters"
+          value={this.state.multiValue}
+          options={this.state.filterOptions}
+          onChange={this.handleMultiChange}
+          isMulti={true}
+        />
+
       
         
         <FormControl required sx={{ m: 1, minWidth: 150 }} id="search_param">
           <InputLabel id="demo-simple-select-required-label">
             Search:{" "}
           </InputLabel>
-          <Select
+           <Select
             labelId="demo-simple-select-required-label"
             id="demo-simple-select-required"
             value={this.state.sparam}
@@ -137,7 +141,7 @@ onSelect = () => {
             <MenuItem value="custName">Customer Name</MenuItem>
             <MenuItem value="accNo">Account No</MenuItem>
             <MenuItem value="vin">VIN</MenuItem> 
-          </Select>
+          </Select> 
         </FormControl>
         <Input
           placeholder="Search for a customer"
@@ -152,8 +156,5 @@ onSelect = () => {
       </Form>
     );
   }
-  // propTypes = {
-  //   passToHeader: this.PropTypes.Object,
-  // };
 }
 export default withRouter(APIForm);

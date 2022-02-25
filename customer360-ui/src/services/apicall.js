@@ -6,6 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Select1 from 'react-select';
 import "../assets/css/apicall.css";
 import { Multiselect } from "multiselect-react-dropdown";
 
@@ -16,16 +17,31 @@ class APIForm extends Component {
     this.state = {
       upid: "",
       sparam: "",
-      isOrg: false,
-      isName: false,
-      plainArray: ["Party", "Asset", "Alternate ID", "Borrower", "Product"],
+      filters: [],
+      filterOptions: [
+        { value: "party", label: "Party" },
+        { value: "asset", label: "Asset" },
+        { value: "altid", label: "Alternate ID" },
+        { value: "borrower", label: "Borrower" },
+        { value: "product", label: "Product" },
+
+      ],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleParamChange = this.handleParamChange.bind(this);
-
+    this.handleMultiChange = this.handleMultiChange.bind(this);
     // const { history } = this.props;
   }
+
+  handleMultiChange(option) {
+    this.setState(state => {
+      return {
+        filters: option
+      };
+    });
+  }
+  
   handleParamChange(event) {
     const inputValue = event.target.value;
 
@@ -83,26 +99,34 @@ class APIForm extends Component {
   }
 
   render() {
-    const { plainArray } = this.state;
     return (
       <Form
         className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
         onSubmit={this.handleSubmit}
       >
-        <Multiselect
-          showArrow
-          options={plainArray}
-          isObject={false}
-          placeholder="Categories to view:"
-          style={{ color: "white" }}
-          //onSelect={this.onSelect}
+            {/* <Multiselect 
+            showArrow options={plainArray} 
+            isObject={false} 
+            //onSelect={this.onSelect}
+            /> */}
+            
+            
+        <Select1
+          name="filters"
+          placeholder="Filters"
+          value={this.state.multiValue}
+          options={this.state.filterOptions}
+          onChange={this.handleMultiChange}
+          isMulti={true}
         />
 
+      
+        
         <FormControl required sx={{ m: 1, minWidth: 150 }} id="search_param">
           <InputLabel id="demo-simple-select-required-label">
             Search by:{" "}
           </InputLabel>
-          <Select
+           <Select
             labelId="demo-simple-select-required-label"
             id="demo-simple-select-required"
             value={this.state.sparam}

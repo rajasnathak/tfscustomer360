@@ -1,6 +1,7 @@
 import React from "react";
 import { runForceGraph } from "./GraphGenerator";
 import styles from "./Graph.module.css";
+import CloseIcon from "@mui/icons-material/Close";
 
 // eslint-disable-next-line react/prop-types
 export default function ForceGraph({

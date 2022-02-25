@@ -89,38 +89,18 @@ class APIForm extends Component {
         className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
         onSubmit={this.handleSubmit}
       >
-        {/*         <div className="form-check">
-          <label className="form-check-label">
-            <input
-              type="checkbox"
-              checked={this.state.isOrg}
-              onChange={this.onChangeOrg}
-              className="form-check-input"
-            />
-            Org
-          </label>
-        </div>
-        <div className="form-check">
-          <label className="form-check-label">
-            <input
-              type="checkbox"
-              checked={this.state.isName}
-              onChange={this.onChangeName}
-              className="form-check-input"
-            />
-            Name
-          </label>
-        </div> */}
         <Multiselect
           showArrow
           options={plainArray}
           isObject={false}
+          placeholder="Categories to view:"
+          style={{ color: "white" }}
           //onSelect={this.onSelect}
         />
 
         <FormControl required sx={{ m: 1, minWidth: 150 }} id="search_param">
           <InputLabel id="demo-simple-select-required-label">
-            Search:{" "}
+            Search by:{" "}
           </InputLabel>
           <Select
             labelId="demo-simple-select-required-label"

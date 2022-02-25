@@ -1,6 +1,9 @@
 import * as d3 from "d3";
 import styles from "../../assets/css/graph-generator.css";
 import { v4 as uuidv4 } from "uuid";
+// import close from "../../assets/img/icons/close.png";
+import axios from "axios";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function runForceGraph(
   container,
@@ -93,7 +96,10 @@ export function runForceGraph(
   subject_nodes = removeDuplicates(subject_nodes, "subject");
 
   let object_nodes = graphData.map((d) =>
-    Object.assign({}, { id: d.object.id, name: d.object.value })
+    Object.assign(
+      {},
+      { id: d.object.id, name: d.object.value, predicate: d.predicate.value }
+    )
   );
   /* remove duplicate subject nodes */
   object_nodes = removeDuplicates(object_nodes, "object");
@@ -171,6 +177,10 @@ export function runForceGraph(
   //   )
   //   .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(3));
 
+  // Movie panel: the div into which the movie details info will be written
+  var nodeInfoDiv = d3.select("#nodeInfo");
+  var nodeInfoDivVanilla = document.getElementById("nodeInfo");
+
   const link = svg
     .append("g")
     .attr("stroke-opacity", 0.6)
@@ -194,7 +204,10 @@ export function runForceGraph(
     .style("cursor", "pointer")
     .call(drag(simulation))
     .on("mouseover", mouseover)
-    .on("mouseout", mouseout);
+    .on("mouseout", mouseout)
+    .on("click", function (d) {
+      showNodePanel(d);
+    });
 
   const node_label = svg
     .append("g")
@@ -210,6 +223,11 @@ export function runForceGraph(
     .call(drag(simulation))
     .text(function (d) {
       return d.name;
+    })
+    .on("mouseover", mouseover)
+    .on("mouseout", mouseout)
+    .on("click", function (d) {
+      showNodePanel(d);
     });
 
   const link_label = svg
@@ -230,8 +248,127 @@ export function runForceGraph(
   //////////////
   // Event handlers //
   //////////////
+  /* Change status of a panel from visible to hidden or viceversa
+     id: identifier of the div to change
+     status: 'on' or 'off'. If not specified, the panel will toggle status
+  */
 
-  // node.on("mouseover", mouseover).on("mouseout", mouseout);
+  /* Compose the content for the panel with movie details.
+     Parameters: the node data, and the array containing all nodes
+  */
+  function getNodeInfo(n, nodes) {
+    console.log(n);
+    console.log(nodes);
+    let info = '<div id="cover">';
+    info += "<React.Fragment><CloseIcon/></React.Fragment>";
+    info +=
+      "<img src=\"../../assets/img/icons/close.png\" className=\"action\" style=\"top: 0px;\" onClick=\"(function(){let status = document.getElementById('nodeInfo').className == 'panel_on' ? 'off' : 'on'; document.getElementById('nodeInfo').className = 'panel_' + status;})();\"/>";
+    // Add script for toggleDiv
+    info +=
+      '<script>function toggleDiv() { let status = nodeInfoDiv.attr("class") == "panel_on" ? "off" : "on"; nodeInfoDiv.attr("class", "panel_" + status);};</script>';
+    info += '<br/><div id="node-info-container" style="clear: both;">';
+    if (n.name)
+      info +=
+        "<div class='node-info-entry'><span class=node-info-attrib>Name</span>: <span class=node-info-value>" +
+        n.name +
+        "</span></div>";
+    if (n.id)
+      info +=
+        "<div class='node-info-entry'><span class=node-info-attrib>Id</span>: <span class=node-info-value>" +
+        n.id +
+        "</span></div>";
+    if (n.predicate)
+      info +=
+        "<div class='node-info-entry'><span class=node-info-attrib>Relationship</span>: <span class=node-info-value>" +
+        n.predicate +
+        "</span></div></div>";
+
+    return info;
+  }
+
+  const validSearchParams = new Map();
+  validSearchParams.set("upid", "upid");
+  validSearchParams.set("Customer Name", "name");
+  validSearchParams.set("Account number", "acctNum");
+  validSearchParams.set("vin", "vin");
+
+  async function newSearch(event, newSearchParam, newValue) {
+    event.preventDefault();
+    // If search parameter isn't valid, return null
+    if (!validSearchParams.has(newSearchParam)) return null;
+    else {
+      console.log(newSearchParam);
+      console.log(newValue);
+    }
+    // event.preventDefault();
+    const headers = {
+      method: "GET",
+    };
+    let response = await axios.get(
+      "https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod/sparqlQuery",
+      {
+        headers: headers,
+        params: {
+          query_type: "sparql",
+          search_param: validSearchParams.get(newSearchParam),
+          value: newValue,
+        },
+      }
+    );
+    console.log(response);
+  }
+  // Click node
+  function showNodePanel(node) {
+    console.log(node);
+    console.log(nodeInfoDiv.innerHTML);
+    // Create button
+    var button = document.createElement("button");
+    button.innerHTML = "New Search";
+    button.id = "drilldown";
+    button.onclick = (e) =>
+      newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
+    // Fill the div with contnent and display the panel
+    nodeInfoDivVanilla.innerHTML = getNodeInfo(node.target.__data__, nodes);
+    nodeInfoDivVanilla.appendChild(button);
+    nodeInfoDiv.attr("class", "panel_on");
+  }
+
+  function hideNodePanel() {
+    nodeInfoDiv.attr("class", "panel_off");
+  }
+  // var tip;
+  // svg.on("click", function () {
+  //   if (tip) tip.remove();
+  // });
+  // node.on("click", function (event, d) {
+  //   event.stopPropagation();
+
+  //   if (tip) tip.remove();
+
+  //   tip = svg
+  //     .append("g")
+  //     .attr("transform", "translate(" + d.x + "," + d.y + ")");
+
+  //   var rect = tip
+  //     .append("rect")
+  //     .style("fill", "white")
+  //     .style("stroke", "steelblue");
+
+  //   tip
+  //     .append("text")
+  //     .text("Name: " + d.name)
+  //     .attr("dy", "1em")
+  //     .attr("x", 5);
+
+  //   tip
+  //     .append("text")
+  //     .text("Info: " + d.info)
+  //     .attr("dy", "2em")
+  //     .attr("x", 5);
+
+  //   var bbox = tip.node().getBBox();
+  //   rect.attr("width", bbox.width + 10).attr("height", bbox.height + 10);
+  // });
 
   simulation.on("tick", () => {
     // update node positions

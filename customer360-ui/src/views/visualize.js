@@ -20,18 +20,32 @@ import ForceGraph from "../components/Graph/Graph";
 // import data from "../data/c360-test-data.json";
 // import styling
 import "../assets/css/visualize.css";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Visualize = (props) => {
   // eslint-disable-next-line react/prop-types
   let dataReceived = true;
   const state = JSON.parse(props.history.location.state);
   let data = "";
-  let searchParams = state.searchParams;
-  // Check if data was sent
-  if (state.data == null) dataReceived = false;
-  else {
-    data = JSON.parse(state.data.data);
+  // If state null, probably didn't search, just clicked visualization tab
+  if (state != null) {
+    var searchParams = state.searchParams;
+    // Check if data was sent
+    if (state.data == null) dataReceived = false;
+    else {
+      data = JSON.parse(state.data.data);
+    }
   }
+
+  /* Change status of a panel from visible to hidden or viceversa
+     id: identifier of the div to change
+     status: 'on' or 'off'. If not specified, the panel will toggle status
+  */
+  let toggleDiv = function () {
+    var nodeInfoDiv = document.getElementById("nodeInfo");
+    let status = nodeInfoDiv.attr("class") == "panel_on" ? "off" : "on";
+    nodeInfoDiv.attr("class", "panel_" + status);
+  };
 
   // Scroll to visualization view
   React.useEffect(() => {
@@ -53,26 +67,54 @@ const Visualize = (props) => {
             <div>
               <h2>Customer Insights</h2>
             </div>
-            {dataReceived == true ? (
-              <Card style={{ width: "100%", height: "auto", marginTop: 80 }}>
-                <CardBody>
-                  <ForceGraph
-                    graphData={data.results.bindings}
-                    searchParams={searchParams}
-                    nodeHoverTooltip={nodeHoverTooltip}
-                  />
-                </CardBody>
-              </Card>
-            ) : (
-              <Card style={{ width: "100%", height: "auto", marginTop: 80 }}>
+            {state == null ? (
+              <Card style={{ width: "100%", height: "30vw", marginTop: 80 }}>
                 <div id="error-container">
                   <h2>
                     {" "}
-                    Sorry, no data was available for the provided {searchParams}
-                    .
+                    Looks like nothing on our end! Make sure to make a valid
+                    search above. .
                   </h2>
                 </div>
               </Card>
+            ) : (
+              <>
+                {dataReceived == true ? (
+                  <Card
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      marginTop: 80,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div>
+                      <ForceGraph
+                        graphData={data.results.bindings}
+                        searchParams={searchParams}
+                        nodeHoverTooltip={nodeHoverTooltip}
+                      />
+                      <div id="sidepanel">
+                        <div id="nodeInfo" className="panel_off">
+                          {/* <button id="drilldown">Drill down</button> */}
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                ) : (
+                  <Card
+                    style={{ width: "100%", height: "auto", marginTop: 80 }}
+                  >
+                    <div id="error-container">
+                      <h2>
+                        {" "}
+                        Sorry, no data was available for the provided{" "}
+                        {searchParams}.
+                      </h2>
+                    </div>
+                  </Card>
+                )}
+              </>
             )}
           </div>
         }

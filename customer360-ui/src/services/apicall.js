@@ -8,7 +8,34 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Select1 from "react-select";
 import "../assets/css/apicall.css";
-import { Multiselect } from "multiselect-react-dropdown";
+
+
+const selectStyles = {
+  option: (provided, state) => ({
+    padding: 20,
+    color: state.isSelected ? 'black' : 'black',
+  
+  }),
+  control: (base) => ({
+      ...base,
+      fontSize: '16px',
+      borderRadius: '4px',
+      padding: '9.2px 12px',
+      border: '0.5px solid #21274F !important',
+      backgroundColor: 'transparent',
+      
+      boxShadow: 'none',
+      '&:focus': {
+          border: '0 !important',
+      },
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0 : 1;
+    const transition = 'opacity 300ms';
+
+    return { ...provided, opacity, transition };
+  }
+}
 
 class APIForm extends Component {
   constructor(props) {
@@ -61,6 +88,7 @@ class APIForm extends Component {
     }));
   };
 
+  
   onSelect = () => {
     this.getSelectedValues();
   };
@@ -110,9 +138,10 @@ class APIForm extends Component {
             /> */}
 
         <Select1
+          styles={selectStyles}
           name="filters"
           placeholder="Filters"
-          value={this.state.multiValue}
+          defaultValue ={{ value: "party", label: "Party" }}
           options={this.state.filterOptions}
           onChange={this.handleMultiChange}
           isMulti={true}

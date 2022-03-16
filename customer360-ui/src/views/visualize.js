@@ -33,7 +33,7 @@ const Visualize = (props) => {
     // Check if data was sent
     if (state.data == null) dataReceived = false;
     else {
-      data = JSON.parse(state.data.data);
+      data = state.data.data;
     }
   }
 

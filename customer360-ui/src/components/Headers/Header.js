@@ -36,7 +36,8 @@ const Header = ({ history }) => {
   // var history = useHistory();
 
   let callbackFunction = (response, searchParams) => {
-    let results = JSON.parse(response.data).results.bindings;
+    // console.log(response);
+    let results = response.data.results.bindings;
     console.log(results);
     if (results.length == 0) {
       history.push(

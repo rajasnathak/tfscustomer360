@@ -6,7 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Select1 from 'react-select';
+import Select1 from "react-select";
 import "../assets/css/apicall.css";
 import { Multiselect } from "multiselect-react-dropdown";
 
@@ -24,7 +24,6 @@ class APIForm extends Component {
         { value: "altid", label: "Alternate ID" },
         { value: "borrower", label: "Borrower" },
         { value: "product", label: "Product" },
-
       ],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,13 +34,13 @@ class APIForm extends Component {
   }
 
   handleMultiChange(option) {
-    this.setState(state => {
+    this.setState((state) => {
       return {
-        filters: option
+        filters: option,
       };
     });
   }
-  
+
   handleParamChange(event) {
     const inputValue = event.target.value;
 
@@ -104,13 +103,12 @@ class APIForm extends Component {
         className="navbar-search navbar-search-dark form-inline d-md-flex justify-content-center"
         onSubmit={this.handleSubmit}
       >
-            {/* <Multiselect 
+        {/* <Multiselect 
             showArrow options={plainArray} 
             isObject={false} 
             //onSelect={this.onSelect}
             /> */}
-            
-            
+
         <Select1
           name="filters"
           placeholder="Filters"
@@ -120,13 +118,11 @@ class APIForm extends Component {
           isMulti={true}
         />
 
-      
-        
         <FormControl required sx={{ m: 1, minWidth: 150 }} id="search_param">
           <InputLabel id="demo-simple-select-required-label">
             Search by:{" "}
           </InputLabel>
-           <Select
+          <Select
             labelId="demo-simple-select-required-label"
             id="demo-simple-select-required"
             value={this.state.sparam}

@@ -69,8 +69,8 @@ const Visualize = (props) => {
             </div>
             {state == null ? (
               <Card style={{ width: "100%", height: "30vw", marginTop: 80 }}>
-                <div id="error-container">
-                  <h2>
+                <div class="error-container">
+                  <h2 class="error-message">
                     {" "}
                     Looks like nothing on our end! Make sure to make a valid
                     search above. .
@@ -103,10 +103,10 @@ const Visualize = (props) => {
                   </Card>
                 ) : (
                   <Card
-                    style={{ width: "100%", height: "auto", marginTop: 80 }}
+                    style={{ width: "100%", height: "30vw", marginTop: 80 }}
                   >
-                    <div id="error-container">
-                      <h2>
+                    <div class="error-container">
+                      <h2 class="error-message">
                         {" "}
                         Sorry, no data was available for the provided{" "}
                         {searchParams}.

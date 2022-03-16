@@ -4,15 +4,34 @@ import { v4 as uuidv4 } from "uuid";
 // import close from "../../assets/img/icons/close.png";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
+import { withRouter } from "react-router";
 
 export function runForceGraph(
+// const runForceGraph = (
   container,
   graphData,
   searchParams,
-  nodeHoverTooltip
-) {
-  console.log(searchParams);
+  nodeHoverTooltip) {
+// ) => {
+//   let callbackFunction = (response, searchParams) => {
+//     let results = JSON.parse(response.data).results.bindings;
+//     console.log(results);
+//     if (results.length == 0) {
+//       history.push(
+//         "/admin/visualize",
+//         JSON.stringify({ data: null, searchParams: searchParams })
+//       );
+//       window.location.reload();
+//     } else {
+//       history.push(
+//         "/admin/visualize",
+//         JSON.stringify({ data: response, searchParams: searchParams })
+//       );
+//       window.location.reload();
+//     }
+//   };
   // Apply UIDs to nodes
+  console.log(searchParams);
   let uniqueSubjectUuids = new Map();
   let uniqueObjectUuids = new Map();
   const setuids = (graphData) => {
@@ -89,7 +108,10 @@ export function runForceGraph(
   );
   // console.log(links);
   let subject_nodes = graphData.map((d) =>
-    Object.assign({}, { id: d.subject.id, name: d.subject.value })
+    Object.assign(
+      {},
+      { id: d.subject.id, name: d.subject.value, type: d.subject.type }
+    )
   );
 
   /* remove duplicate subject nodes */
@@ -98,7 +120,12 @@ export function runForceGraph(
   let object_nodes = graphData.map((d) =>
     Object.assign(
       {},
-      { id: d.object.id, name: d.object.value, predicate: d.predicate.value }
+      {
+        id: d.object.id,
+        name: d.object.value,
+        type: d.object.type,
+        predicate: d.predicate.value,
+      }
     )
   );
   /* remove duplicate subject nodes */
@@ -108,14 +135,20 @@ export function runForceGraph(
 
   const linkDistance = 200;
   const containerRect = container.getBoundingClientRect();
-  const height = containerRect.height;
-  const width = containerRect.width;
+  const height = containerRect.height * 2;
+  const width = containerRect.width * 2;
   const radius = 24;
 
   // helper functions
   // retrieve color for given node
   const color = () => {
     return "#EB0A1E";
+  };
+  const defaultStroke = () => {
+    return "#FFFFFF";
+  };
+  const drillDownStroke = () => {
+    return "#70e2ff";
   };
 
   const getClass = (d) => {
@@ -159,29 +192,51 @@ export function runForceGraph(
         .distance(linkDistance)
     )
     // Apply to all nodes. Negative value is repulsion, positive is attraction
-    .force("charge", d3.forceManyBody().strength(-900))
+    .force("charge", d3.forceManyBody().strength(-400))
     .force("x", d3.forceX(width / 2))
     .force("y", d3.forceY(height / 2));
 
-  var zoom;
+/*** Configure zoom behaviour ***/
+
+// var zoomer = d3.zoom()
+//   .scaleExtent([0.1,10])
+// //allow 10 times zoom in or out
+//   .on("zoom", function zoom(event) {
+//     console.log("zoom", event.translate, event.scale);
+//     zoom_container.attr("transform",
+//     "translate(" + event.translate + ")"
+//       + " scale(" + event.scale + ")" );
+// });
+
   const svg = d3
     .select(container)
     .append("svg")
     .attr("width", width)
-    .attr("height", height);
-  // svg
-  //   .call(
-  //     (zoom = d3.zoom().on("zoom", function (event) {
-  //       svg.attr("transform", event.transform);
-  //     }))
-  //   )
-  //   .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(3));
+    .attr("height", height)
+    .attr("viewBox", `0 0 ${width} ${height}`);
+    // .call(zoomer);
+console.log(svg);
+  var zoom_container = svg.append("svg:g")
+          .attr("class", "plotting-area")
+          .attr("width", width)
+          .attr("height", height);
+  var zoom;
+  svg
+    .call(
+      (zoom = d3.zoom().on("zoom", function (event) {
+        zoom_container.attr("transform", event.transform);
+      }))
+    )
+    .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+
+
+
 
   // Movie panel: the div into which the movie details info will be written
   var nodeInfoDiv = d3.select("#nodeInfo");
   var nodeInfoDivVanilla = document.getElementById("nodeInfo");
 
-  const link = svg
+  const link = zoom_container
     .append("g")
     .attr("stroke-opacity", 0.6)
     .selectAll("line")
@@ -191,25 +246,49 @@ export function runForceGraph(
     .attr("stroke", "#58595B")
     .attr("marker-end", "url(#arrowhead)");
 
-  const node = svg
+  const node = zoom_container
     .append("g")
     // .attr("stroke", "#fff")
     // .attr("stroke-width", 2)
     .selectAll("circle")
     .data(nodes)
     .join("circle")
-    .attr("class", "node")
+    // .attr("class", "node")
+    .attr("class", function (d) {
+      if (d.type == "uri") return "node drillDown";
+      else return "node";
+    })
+    // .attr("stroke", function (d) {
+    //   if (d.type == "uri") return drillDownStroke();
+    //   else return defaultStroke();
+    // })
+    // .attr("stroke-width", 4)
     .attr("r", radius)
     .attr("fill", color)
     .style("cursor", "pointer")
     .call(drag(simulation))
     .on("mouseover", mouseover)
     .on("mouseout", mouseout)
-    .on("click", function (d) {
-      showNodePanel(d);
+    // .on("click", function (d) {
+    //   showNodePanel(d);
+    // });
+    var timeout = null;
+    node.on("click", function(d) {
+      clearTimeout(timeout);
+      
+      timeout = setTimeout(function() {
+        console.clear();
+        console.log("node was single clicked", new Date());
+      }, 300)
+    })
+    .on("dblclick", function(d) {
+      clearTimeout(timeout);
+      
+      console.clear();
+      console.log("node was double clicked", new Date());
     });
 
-  const node_label = svg
+  const node_label = zoom_container
     .append("g")
     .attr("class", "labels")
     .selectAll("text.label")
@@ -217,7 +296,11 @@ export function runForceGraph(
     .enter()
     .append("text")
     .style("text-anchor", "middle")
-    .attr("class", "node-label")
+    // .attr("class", "node-label")
+    .attr("class", function (d) {
+      if (d.type == "uri") return "node-label label-drillDown";
+      else return "node-label";
+    })
     .style("cursor", "default")
     .attr("dominant-baseline", "middle")
     .call(drag(simulation))
@@ -230,7 +313,7 @@ export function runForceGraph(
       showNodePanel(d);
     });
 
-  const link_label = svg
+  const link_label = zoom_container
     .append("g")
     .attr("class", "labels")
     .selectAll("text.label")
@@ -258,7 +341,7 @@ export function runForceGraph(
   */
   function getNodeInfo(n, nodes) {
     console.log(n);
-    console.log(nodes);
+    // console.log(nodes);
     let info = '<div id="cover">';
     info += "<React.Fragment><CloseIcon/></React.Fragment>";
     info +=
@@ -276,6 +359,11 @@ export function runForceGraph(
       info +=
         "<div class='node-info-entry'><span class=node-info-attrib>Id</span>: <span class=node-info-value>" +
         n.id +
+        "</span></div>";
+    if (n.type)
+      info +=
+        "<div class='node-info-entry'><span class=node-info-attrib>Type</span>: <span class=node-info-value>" +
+        n.type +
         "</span></div>";
     if (n.predicate)
       info +=
@@ -324,51 +412,35 @@ export function runForceGraph(
     // Create button
     var button = document.createElement("button");
     button.innerHTML = "New Search";
-    button.id = "drilldown";
+    button.id = "newSearch";
     button.onclick = (e) =>
       newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
     // Fill the div with contnent and display the panel
     nodeInfoDivVanilla.innerHTML = getNodeInfo(node.target.__data__, nodes);
     nodeInfoDivVanilla.appendChild(button);
+    // If Node cann drill down, add the drill down buttonn
+    if (
+      node.target.classList.contains("drillDown") ||
+      node.target.classList.contains("label-drillDown")
+    )
+      addDrillDownButton(nodeInfoDivVanilla);
     nodeInfoDiv.attr("class", "panel_on");
+  }
+
+  function addDrillDownButton(nodeInfoDivVanilla) {
+    console.log("Drill down button: " + node);
+    // Create button
+    var button = document.createElement("button");
+    button.innerHTML = "Drill Down";
+    button.id = "drillDownButton";
+    // button.onclick = (e) =>
+    //   newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
+    nodeInfoDivVanilla.appendChild(button);
   }
 
   function hideNodePanel() {
     nodeInfoDiv.attr("class", "panel_off");
   }
-  // var tip;
-  // svg.on("click", function () {
-  //   if (tip) tip.remove();
-  // });
-  // node.on("click", function (event, d) {
-  //   event.stopPropagation();
-
-  //   if (tip) tip.remove();
-
-  //   tip = svg
-  //     .append("g")
-  //     .attr("transform", "translate(" + d.x + "," + d.y + ")");
-
-  //   var rect = tip
-  //     .append("rect")
-  //     .style("fill", "white")
-  //     .style("stroke", "steelblue");
-
-  //   tip
-  //     .append("text")
-  //     .text("Name: " + d.name)
-  //     .attr("dy", "1em")
-  //     .attr("x", 5);
-
-  //   tip
-  //     .append("text")
-  //     .text("Info: " + d.info)
-  //     .attr("dy", "2em")
-  //     .attr("x", 5);
-
-  //   var bbox = tip.node().getBBox();
-  //   rect.attr("width", bbox.width + 10).attr("height", bbox.height + 10);
-  // });
 
   simulation.on("tick", () => {
     // update node positions
@@ -475,7 +547,7 @@ export function runForceGraph(
       simulation.stop();
     },
     nodes: () => {
-      return svg.node();
+      return zoom_container.node();
     },
   };
 
@@ -486,7 +558,7 @@ export function runForceGraph(
   }
 
   function mouseover(d) {
-    // console.log(d.target.__data__);
+    // console.log(d3.selectAll(".node"));
     d3.selectAll(".node").style("stroke", "black");
     d3.selectAll(".link").style("stroke", "black").style("stroke-width", 4);
     d3.selectAll(".link")
@@ -507,8 +579,13 @@ export function runForceGraph(
 
   function mouseout() {
     d3.selectAll(".node").style("stroke", "white");
+    d3.selectAll(".drillDown")
+      .style("stroke", "#334F7C")
+      .style("stroke-width", 4)
+      .style("stroke-dasharray", 8);
     d3.selectAll(".link").style("stroke", "grey").style("stroke-width", 1);
     d3.selectAll(".link").transition().duration(500).style("opacity", 1);
     d3.selectAll(".node").transition().duration(500).style("opacity", 1);
   }
-}
+};
+export default withRouter(runForceGraph);

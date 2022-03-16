@@ -50,3 +50,9 @@ div.tooltip {
   color: #58595b !important;
   overflow: auto;
 }
+
+.drillDown {
+  stroke: #334f7c;
+  stroke-width: 4;
+  stroke-dasharray: 8;
+}

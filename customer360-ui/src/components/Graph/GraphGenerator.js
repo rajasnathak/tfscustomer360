@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 // import close from "../../assets/img/icons/close.png";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
-
+import closeIcon from "../../assets/img/icons/close.png"
 export function runForceGraph(
   container,
   graphData,
@@ -61,6 +61,7 @@ export function runForceGraph(
     return graphData;
   };
 
+  
   const removeDuplicates = (nodes, type) => {
     /* Each triple returns an additional subject, but we only need one subject
     connected to each object node*/
@@ -244,6 +245,7 @@ export function runForceGraph(
     .text(function (d) {
       return d.name;
     });
+    
 
   //////////////
   // Event handlers //
@@ -260,9 +262,9 @@ export function runForceGraph(
     console.log(n);
     console.log(nodes);
     let info = '<div id="cover">';
-    info += "<React.Fragment><CloseIcon/></React.Fragment>";
+    info += '<React.Fragment><CloseIcon/></React.Fragment>';
     info +=
-      "<img src=\"../../assets/img/icons/close.png\" className=\"action\" style=\"top: 0px;\" onClick=\"(function(){let status = document.getElementById('nodeInfo').className == 'panel_on' ? 'off' : 'on'; document.getElementById('nodeInfo').className = 'panel_' + status;})();\"/>";
+      "<img src={\"{closeIcon}\"} className=\"action\" style=\"top: 0px;\" onClick=\"(function(){let status = document.getElementById('nodeInfo').className == 'panel_on' ? 'off' : 'on'; document.getElementById('nodeInfo').className = 'panel_' + status;})();\"/>";
     // Add script for toggleDiv
     info +=
       '<script>function toggleDiv() { let status = nodeInfoDiv.attr("class") == "panel_on" ? "off" : "on"; nodeInfoDiv.attr("class", "panel_" + status);};</script>';

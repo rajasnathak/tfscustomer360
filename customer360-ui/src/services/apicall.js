@@ -143,7 +143,7 @@ class APIForm extends Component {
           styles={selectStyles}
           name="filters"
           placeholder="Filters"
-          value={this.state.multiValue}
+          defaultValue ={{ value: "party", label: "Party" }}
           options={this.state.filterOptions}
           onChange={this.handleMultiChange}
           isMulti={true}

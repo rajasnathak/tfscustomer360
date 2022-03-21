@@ -373,7 +373,7 @@ console.log(subject_nodes);
     let info = '<div id="cover">';
     info += '<React.Fragment><CloseIcon/></React.Fragment>';
     info +=
-      "<img src={\"{closeIcon}\"} className=\"action\" style=\"top: 0px;\" onClick=\"(function(){let status = document.getElementById('nodeInfo').className == 'panel_on' ? 'off' : 'on'; document.getElementById('nodeInfo').className = 'panel_' + status;})();\"/>";
+      "<img height=17 width=17 img src=\"https://cdn-icons-png.flaticon.com/512/1828/1828778.png\" className=\"action\" style=\"top: 0px;\" onClick=\"(function(){let status = document.getElementById('nodeInfo').className == 'panel_on' ? 'off' : 'on'; document.getElementById('nodeInfo').className = 'panel_' + status;})();\"/>";
     // Add script for toggleDiv
     info +=
       '<script>function toggleDiv() { let status = nodeInfoDiv.attr("class") == "panel_on" ? "off" : "on"; nodeInfoDiv.attr("class", "panel_" + status);};</script>';

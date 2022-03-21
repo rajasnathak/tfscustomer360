@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import styles from "../../assets/css/graph-generator.css";
 import { v4 as uuidv4 } from "uuid";
 // import close from "../../assets/img/icons/close.png";
 import axios from "axios";
@@ -7,10 +6,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import { withRouter } from "react-router";
 
 import closeIcon from "../../assets/img/icons/close.png"
+
+import categories from "../../data/node-categories"
+import colors from "../../data/category-colors"
+import "../../assets/css/graph-generator.css"
+
 export function runForceGraph(
 // const runForceGraph = (
   container,
   graphData,
+  filters,
   searchParams,
   nodeHoverTooltip) {
 // ) => {
@@ -32,9 +37,11 @@ export function runForceGraph(
 //     }
 //   };
   // Apply UIDs to nodes
-  console.log(searchParams);
+  console.log(filters);
   let uniqueSubjectUuids = new Map();
   let uniqueObjectUuids = new Map();
+
+  /* Function to conditionally set unique identifers for nodes */
   const setuids = (graphData) => {
     graphData = graphData.map((d) => {
       let subjectUuid = "";
@@ -63,6 +70,7 @@ export function runForceGraph(
             type: d.subject.type,
             value: d.subject.value,
             id: subjectUuid,
+            category: categories["09"]
           },
           predicate: {
             type: d.predicate.type,
@@ -73,6 +81,7 @@ export function runForceGraph(
             type: d.object.type,
             value: d.object.value,
             id: objectUuid,
+            category: d.object.category ? categories[d.object.category] : categories["09"]
           },
         }
       );
@@ -96,8 +105,11 @@ export function runForceGraph(
     });
     return unique_subject_nodes;
   };
+
+  // Set unqiue identifers for the data
   graphData = setuids(graphData);
-  // copy the data and get the container's width and height
+
+  // Define the links between nodes
   const links = graphData.map((d) =>
     Object.assign(
       {},
@@ -108,17 +120,20 @@ export function runForceGraph(
       }
     )
   );
-  // console.log(links);
+
+  // Define the subject nodes
   let subject_nodes = graphData.map((d) =>
     Object.assign(
       {},
-      { id: d.subject.id, name: d.subject.value, type: d.subject.type }
+      { id: d.subject.id, name: d.subject.value, type: d.subject.type, category: d.subject.category }
     )
   );
-
+//////////////////////////////////
   /* remove duplicate subject nodes */
+//////////////////////////////////
   subject_nodes = removeDuplicates(subject_nodes, "subject");
-
+console.log(subject_nodes);
+  // Define the object nodes
   let object_nodes = graphData.map((d) =>
     Object.assign(
       {},
@@ -127,24 +142,26 @@ export function runForceGraph(
         name: d.object.value,
         type: d.object.type,
         predicate: d.predicate.value,
+        category: d.object.category
       }
     )
   );
   /* remove duplicate subject nodes */
   object_nodes = removeDuplicates(object_nodes, "object");
 
-  const nodes = subject_nodes.concat(object_nodes);
+  console.log(object_nodes);
 
+  const nodes = subject_nodes.concat(object_nodes);
   const linkDistance = 200;
   const containerRect = container.getBoundingClientRect();
   const height = containerRect.height * 2;
   const width = containerRect.width * 2;
-  const radius = 24;
+  const radius = 32;
 
   // helper functions
   // retrieve color for given node
-  const color = () => {
-    return "#EB0A1E";
+  const fillColors = (d) => {
+    return colors[d.category];
   };
   const defaultStroke = () => {
     return "#FFFFFF";
@@ -217,7 +234,6 @@ export function runForceGraph(
     .attr("height", height)
     .attr("viewBox", `0 0 ${width} ${height}`);
     // .call(zoomer);
-console.log(svg);
   var zoom_container = svg.append("svg:g")
           .attr("class", "plotting-area")
           .attr("width", width)
@@ -234,7 +250,7 @@ console.log(svg);
 
 
 
-  // Movie panel: the div into which the movie details info will be written
+
   var nodeInfoDiv = d3.select("#nodeInfo");
   var nodeInfoDivVanilla = document.getElementById("nodeInfo");
 
@@ -244,6 +260,9 @@ console.log(svg);
     .selectAll("line")
     .data(links)
     .join("line")
+    .attr("class", function (d) {
+      return filterCategories(d, "link");
+    })
     .attr("stroke-width", "1px")
     .attr("stroke", "#58595B")
     .attr("marker-end", "url(#arrowhead)");
@@ -257,16 +276,14 @@ console.log(svg);
     .join("circle")
     // .attr("class", "node")
     .attr("class", function (d) {
-      if (d.type == "uri") return "node drillDown";
-      else return "node";
+      if (d.type == "uri") return "node drillDown " + filterCategories(d, "node");
+      else return "node " + filterCategories(d, "node");
     })
-    // .attr("stroke", function (d) {
-    //   if (d.type == "uri") return drillDownStroke();
-    //   else return defaultStroke();
-    // })
-    // .attr("stroke-width", 4)
     .attr("r", radius)
-    .attr("fill", color)
+    .attr("fill", function (d) {
+      if (d.category == undefined) return colors["Party"]
+      return colors[d.category]
+    })
     .style("cursor", "pointer")
     .call(drag(simulation))
     .on("mouseover", mouseover)
@@ -300,14 +317,18 @@ console.log(svg);
     .style("text-anchor", "middle")
     // .attr("class", "node-label")
     .attr("class", function (d) {
-      if (d.type == "uri") return "node-label label-drillDown";
-      else return "node-label";
+      if (d.type == "uri") return "node-label label-drillDown " + filterCategories(d, "node");
+      else return "node-label " + filterCategories(d, "node");
     })
     .style("cursor", "default")
     .attr("dominant-baseline", "middle")
+    .attr("fill", "#ffffff")
+    .attr("stroke", "#000000")
+    .attr("stroke-width", "1px")
     .call(drag(simulation))
     .text(function (d) {
       return d.name;
+      // return d.name.replace(/.{5}/g, '$&\n');
     })
     .on("mouseover", mouseover)
     .on("mouseout", mouseout)
@@ -322,6 +343,10 @@ console.log(svg);
     .data(links)
     .enter()
     .append("text")
+    .attr("class", function (d) {
+      // console.log(d);
+      return "link-label " + filterCategories(d, "link");
+    })
     .attr("text-anchor", "start")
     .attr("dominant-baseline", "auto")
     .attr("fill", "#58595B")
@@ -368,6 +393,11 @@ console.log(svg);
         "<div class='node-info-entry'><span class=node-info-attrib>Type</span>: <span class=node-info-value>" +
         n.type +
         "</span></div>";
+    if (n.category)
+      info +=
+        "<div class='node-info-entry'><span class=node-info-attrib>Category</span>: <span class=node-info-value>" +
+        n.category +
+        "</span></div>";
     if (n.predicate)
       info +=
         "<div class='node-info-entry'><span class=node-info-attrib>Relationship</span>: <span class=node-info-value>" +
@@ -408,7 +438,10 @@ console.log(svg);
     );
     console.log(response);
   }
-  // Click node
+
+
+  // Event handler for clickinga node
+  // Opens the node panel with more information on the node that was clicked
   function showNodePanel(node) {
     console.log(node);
     console.log(nodeInfoDiv.innerHTML);
@@ -443,6 +476,28 @@ console.log(svg);
 
   function hideNodePanel() {
     nodeInfoDiv.attr("class", "panel_off");
+  }
+
+  ///////////////////////////////////////////////////
+  // Event handler for hiding/unhiding categories
+  ///////////////////////////////////////////////////
+
+  function filterCategories(d, type) {
+    // console.log(d);
+    if(type == "link"){
+      if (!filters.some(e => e.value == d.target.category)){
+        return "hidden";
+      }
+      else return "active";
+    }
+
+    else if(type == "node") {
+      if (!filters.some(e => e.value == d.category)){
+        return "hidden";
+      }
+      else return "active";
+    }
+    
   }
 
   simulation.on("tick", () => {
@@ -524,7 +579,7 @@ console.log(svg);
   const tooltip = document.querySelector("#graph-tooltip");
   if (!tooltip) {
     const tooltipDiv = document.createElement("div");
-    tooltipDiv.classList.add(styles.tooltip);
+    // tooltipDiv.classList.add(styles.tooltip);
     tooltipDiv.style.opacity = "0";
     tooltipDiv.id = "graph-tooltip";
     document.body.appendChild(tooltipDiv);

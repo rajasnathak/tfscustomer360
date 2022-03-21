@@ -6,12 +6,14 @@ import CloseIcon from "@mui/icons-material/Close";
 // eslint-disable-next-line react/prop-types
 export default function ForceGraph({
   graphData,
+  filters,
   searchParams,
   nodeHoverTooltip,
 }) {
   const containerRef = React.useRef(null);
   console.log(graphData);
   console.log(searchParams);
+  console.log(filters);
   React.useEffect(() => {
     let destroyFn;
 
@@ -19,6 +21,7 @@ export default function ForceGraph({
       const { destroy } = runForceGraph(
         containerRef.current,
         graphData,
+        filters,
         searchParams,
         nodeHoverTooltip
       );
@@ -26,7 +29,7 @@ export default function ForceGraph({
     }
 
     return destroyFn;
-  }, [graphData, nodeHoverTooltip]);
+  }, [graphData, filters, nodeHoverTooltip]);
 
   return <div ref={containerRef} className={styles.container} />;
 }

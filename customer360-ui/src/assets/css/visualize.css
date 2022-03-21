@@ -25,6 +25,61 @@
 button#drilldown {
   margin: 5px;
 }
+div#node-legend {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+
+}
+div#category-info {
+  display: flex;
+  flex-direction: row;
+  border: solid 2px #aaa;
+  border-radius: 8px;
+  color: black;
+  width: 20vw;
+  height: 30vh;
+}
+.legend-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  height: 25%;
+}
+
+.legend-node {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  pointer-events: none;
+}
+
+.inactive-category {
+  background-color: lightgray;
+  border-radius: 15px;
+  margin: 5px;
+}
+.active-category {
+  background-color: #fff;
+  border-radius: 15px;
+  margin: 5px;
+}
+
+circle, .legend-label {
+  text-align: center;
+  vertical-align: middle;
+  margin: 0;
+  pointer-events: none;
+}
+
 div#sidepanel {
   position: absolute;
   pointer-events: none;
@@ -37,7 +92,7 @@ div#nodeInfo {
   flex-direction: column;
   left: 6px;
   cursor: text;
-  width: 300px;
+  width: 15vw;
   height: auto;
   z-index: 1000;
   background: #fff;
@@ -73,7 +128,7 @@ div#nodeInfo img.action {
 div.node-info-entry {
   border-top: 1px solid #58595b;
   padding: 5px 20px;
-  font-size: 2.5vh;
+  font-size: 2vh;
   margin: 2px;
 }
 

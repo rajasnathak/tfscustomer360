@@ -35,20 +35,20 @@ import { Route } from "react-router-dom/cjs/react-router-dom.min";
 const Header = ({ history }) => {
   // var history = useHistory();
 
-  let callbackFunction = (response, searchParams) => {
-    // console.log(response);
+  let callbackFunction = (response, searchParams, filters) => {
+    console.log(filters);
     let results = response.data.results.bindings;
     console.log(results);
     if (results.length == 0) {
       history.push(
         "/admin/visualize",
-        JSON.stringify({ data: null, searchParams: searchParams })
+        JSON.stringify({ data: null, searchParams: searchParams, filters: filters })
       );
       window.location.reload();
     } else {
       history.push(
         "/admin/visualize",
-        JSON.stringify({ data: response, searchParams: searchParams })
+        JSON.stringify({ data: response, searchParams: searchParams, filters: filters })
       );
       window.location.reload();
     }

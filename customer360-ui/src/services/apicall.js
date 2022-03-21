@@ -44,13 +44,17 @@ class APIForm extends Component {
     this.state = {
       upid: "",
       sparam: "",
-      filters: [],
+      filters: [{ value: "Party", label: "Party" }],
       filterOptions: [
-        { value: "party", label: "Party" },
-        { value: "asset", label: "Asset" },
-        { value: "altid", label: "Alternate ID" },
-        { value: "borrower", label: "Borrower" },
-        { value: "product", label: "Product" },
+        { value: "Party", label: "Party" },
+        { value: "Asset", label: "Asset" },
+        { value: "Alternate Id", label: "Alternate ID" },
+        { value: "Phone", label: "Phone" },
+        { value: "Email", label: "Email" },
+        { value: "Address", label: "Address" },
+        { value: "Other Master Data", label: "Other" },
+        { value: "Borrower", label: "Borrower" },
+        { value: "Product", label: "Product" },
       ],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,12 +64,13 @@ class APIForm extends Component {
     // const { history } = this.props;
   }
 
-  handleMultiChange(option) {
-    this.setState((state) => {
-      return {
-        filters: option,
-      };
+  handleMultiChange(option) { 
+    // console.log(option);
+    this.setState({
+      filters: option,
     });
+    console.log(this.state);
+
   }
 
   handleParamChange(event) {
@@ -101,6 +106,8 @@ class APIForm extends Component {
     });
     console.log(this.state);
   }
+
+  // Event handler for submitting a search request for the form
   async handleSubmit(event) {
     event.preventDefault();
     const { upid } = this.state;
@@ -120,7 +127,7 @@ class APIForm extends Component {
     );
     // console.log(response);
     // eslint-disable-next-line react/prop-types
-    this.props.passToHeader(response, [this.state.sparam]);
+    this.props.passToHeader(response, [this.state.sparam], this.state.filters);
 
     // console.log(response);
   }
@@ -141,7 +148,7 @@ class APIForm extends Component {
           styles={selectStyles}
           name="filters"
           placeholder="Filters"
-          defaultValue ={{ value: "party", label: "Party" }}
+          defaultValue ={{ value: "Party", label: "Party" }}
           options={this.state.filterOptions}
           onChange={this.handleMultiChange}
           isMulti={true}

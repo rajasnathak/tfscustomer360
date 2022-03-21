@@ -19,6 +19,12 @@
 .female {
   fill: rgb(246, 0, 0);
 }
+.hidden {
+  display: none !important;
+}
+.active {
+  display: unset !important
+}
 
 .node text {
   font: 12px sans-serif;
@@ -47,7 +53,7 @@ div.tooltip {
 .link-label {
   font-weight: 500;
   font-family: "Avenir Black", "Arial Black", sans-serif;
-  color: #58595b !important;
+  /* color: #58595b !important; */
   overflow: auto;
 }
 

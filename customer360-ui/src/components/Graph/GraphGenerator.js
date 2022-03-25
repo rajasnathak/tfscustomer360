@@ -70,7 +70,7 @@ export function runForceGraph(
             type: d.subject.type,
             value: d.subject.value,
             id: subjectUuid,
-            category: categories["09"]
+            category: categories["00"]
           },
           predicate: {
             type: d.predicate.type,
@@ -132,7 +132,7 @@ export function runForceGraph(
   /* remove duplicate subject nodes */
 //////////////////////////////////
   subject_nodes = removeDuplicates(subject_nodes, "subject");
-console.log(subject_nodes);
+  console.log(subject_nodes);
   // Define the object nodes
   let object_nodes = graphData.map((d) =>
     Object.assign(
@@ -149,14 +149,19 @@ console.log(subject_nodes);
   /* remove duplicate subject nodes */
   object_nodes = removeDuplicates(object_nodes, "object");
 
-  console.log(object_nodes);
+  // console.log(object_nodes);
 
   const nodes = subject_nodes.concat(object_nodes);
+  const nodeCount = nodes.length;
+  const subjectCount = subject_nodes.length;
+  console.log(subjectCount);
   const linkDistance = 200;
   const containerRect = container.getBoundingClientRect();
   const height = containerRect.height * 2;
   const width = containerRect.width * 2;
   const radius = 32;
+  let scale;
+  subjectCount > 5 ? scale = 1 : scale = 1.5;
 
   // helper functions
   // retrieve color for given node
@@ -229,6 +234,7 @@ console.log(subject_nodes);
 
   const svg = d3
     .select(container)
+    .html("")
     .append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -245,7 +251,7 @@ console.log(subject_nodes);
         zoom_container.attr("transform", event.transform);
       }))
     )
-    .call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1));
+    .call(zoom.transform, d3.zoomIdentity.translate(-width/4, -height/4).scale(scale));
 
 
 
@@ -288,24 +294,10 @@ console.log(subject_nodes);
     .call(drag(simulation))
     .on("mouseover", mouseover)
     .on("mouseout", mouseout)
-    // .on("click", function (d) {
-    //   showNodePanel(d);
-    // });
-    var timeout = null;
-    node.on("click", function(d) {
-      clearTimeout(timeout);
-      
-      timeout = setTimeout(function() {
-        console.clear();
-        console.log("node was single clicked", new Date());
-      }, 300)
-    })
-    .on("dblclick", function(d) {
-      clearTimeout(timeout);
-      
-      console.clear();
-      console.log("node was double clicked", new Date());
+    .on("click", function (d) {
+      showNodePanel(d);
     });
+
 
   const node_label = zoom_container
     .append("g")
@@ -315,7 +307,6 @@ console.log(subject_nodes);
     .enter()
     .append("text")
     .style("text-anchor", "middle")
-    // .attr("class", "node-label")
     .attr("class", function (d) {
       if (d.type == "uri") return "node-label label-drillDown " + filterCategories(d, "node");
       else return "node-label " + filterCategories(d, "node");
@@ -371,9 +362,8 @@ console.log(subject_nodes);
     console.log(n);
     // console.log(nodes);
     let info = '<div id="cover">';
-    info += '<React.Fragment><CloseIcon/></React.Fragment>';
     info +=
-      "<img height=17 width=17 img src=\"https://cdn-icons-png.flaticon.com/512/1828/1828778.png\" className=\"action\" style=\"top: 0px;\" onClick=\"(function(){let status = document.getElementById('nodeInfo').className == 'panel_on' ? 'off' : 'on'; document.getElementById('nodeInfo').className = 'panel_' + status;})();\"/>";
+      "<img height=17 width=17 img src=\"https://cdn-icons-png.flaticon.com/512/1828/1828778.png\" class=\"action\" style=\"top: 0px;\" onClick=\"(function(){let status = document.getElementById('nodeInfo').className == 'panel_on' ? 'off' : 'on'; document.getElementById('nodeInfo').className = 'panel_' + status;})();\"/>";
     // Add script for toggleDiv
     info +=
       '<script>function toggleDiv() { let status = nodeInfoDiv.attr("class") == "panel_on" ? "off" : "on"; nodeInfoDiv.attr("class", "panel_" + status);};</script>';
@@ -446,14 +436,14 @@ console.log(subject_nodes);
     console.log(node);
     console.log(nodeInfoDiv.innerHTML);
     // Create button
-    var button = document.createElement("button");
-    button.innerHTML = "New Search";
-    button.id = "newSearch";
-    button.onclick = (e) =>
-      newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
+    // var button = document.createElement("button");
+    // button.innerHTML = "New Search";
+    // button.id = "newSearch";
+    // button.onclick = (e) =>
+    //   newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
     // Fill the div with contnent and display the panel
     nodeInfoDivVanilla.innerHTML = getNodeInfo(node.target.__data__, nodes);
-    nodeInfoDivVanilla.appendChild(button);
+    // nodeInfoDivVanilla.appendChild(button);
     // If Node cann drill down, add the drill down buttonn
     if (
       node.target.classList.contains("drillDown") ||
@@ -464,11 +454,11 @@ console.log(subject_nodes);
   }
 
   function addDrillDownButton(nodeInfoDivVanilla) {
-    console.log("Drill down button: " + node);
     // Create button
     var button = document.createElement("button");
     button.innerHTML = "Drill Down";
     button.id = "drillDownButton";
+    button.className = "btn btn-light"
     // button.onclick = (e) =>
     //   newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
     nodeInfoDivVanilla.appendChild(button);
@@ -492,7 +482,8 @@ console.log(subject_nodes);
     }
 
     else if(type == "node") {
-      if (!filters.some(e => e.value == d.category)){
+      if(d.category == "Root") return "active";
+      else if (!filters.some(e => e.value == d.category)){
         return "hidden";
       }
       else return "active";

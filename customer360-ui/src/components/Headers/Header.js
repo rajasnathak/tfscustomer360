@@ -35,8 +35,8 @@ import { Route } from "react-router-dom/cjs/react-router-dom.min";
 const Header = ({ history }) => {
   // var history = useHistory();
 
-  let callbackFunction = (response, searchParams, filters) => {
-    console.log(filters);
+  let callbackFunction = (response, status, searchParams, filters) => {
+    console.log(status);
     let results = response.data.results.bindings;
     console.log(results);
     if (results.length == 0) {

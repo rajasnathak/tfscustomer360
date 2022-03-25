@@ -70,9 +70,10 @@ const Visualize = (props) => {
     if(classList.contains("inactive-category")) {
       classList.replace("inactive-category", "active-category");
 
-      filters.push({label: categoryName, value: categoryName});
-      let newState = Object.assign({}, value);
-      newState.filters = filters;
+      const newFilters = [...filters];
+      newFilters.push({label: categoryName, value: categoryName});
+      const newState = Object.assign({}, value);
+      newState.filters = newFilters;
       setValue(newState);
       console.log(value.filters);
     }
@@ -94,7 +95,7 @@ const Visualize = (props) => {
   // Scroll to visualization view
   React.useEffect(() => {
     window.scrollTo({
-      top: 600,
+      top: 700,
       left: 0,
       behavior: "smooth",
     });
@@ -148,7 +149,8 @@ const Visualize = (props) => {
 
                       <div id="node-legend">
                         <div id="category-info">
-                          <div className="legend-column">
+                          
+                          <div className="legend-column justify-content-top">
                             <div className={setClassName("Party")} onClick={updateFilters}>
                               <svg className="legend-node">
                                 <circle cx="25" cy="25" r="10" fill="#eb0a1e"/>
@@ -180,7 +182,7 @@ const Visualize = (props) => {
                               <h3 className="legend-label">Email</h3>
                             </div>
                           </div>
-                          <div className="legend-column">
+                          <div className="legend-column justify-content-top">
                             <div className={setClassName("Address")} onClick={updateFilters}>
                               <svg className="legend-node">
                               <circle cx="25" cy="25" r="10" fill="#ff88a7"/>

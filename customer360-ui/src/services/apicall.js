@@ -109,6 +109,7 @@ class APIForm extends Component {
 
   // Event handler for submitting a search request for the form
   async handleSubmit(event) {
+ 
     event.preventDefault();
     const { upid } = this.state;
     const headers = {
@@ -124,10 +125,15 @@ class APIForm extends Component {
           value: this.state.upid,
         },
       }
-    );
-    // console.log(response);
+    )
+    .catch(function (error) {
+      console.log(error.toJSON());
+      console.log(error.toJSON().status);
+      this.props.passToHeader(null, error.toJSON().status, null, null);
+    });;
+
     // eslint-disable-next-line react/prop-types
-    this.props.passToHeader(response, [this.state.sparam], this.state.filters);
+    this.props.passToHeader(response, 200, [this.state.sparam], this.state.filters);
 
     // console.log(response);
   }
@@ -168,6 +174,7 @@ class APIForm extends Component {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
+            <MenuItem value="all">All Data</MenuItem>
             <MenuItem value="upid">UPID</MenuItem>
             <MenuItem value="name">Customer Name</MenuItem>
             <MenuItem value="acctNum">Account No</MenuItem>

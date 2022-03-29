@@ -1,120 +1,286 @@
-/*!
+import React from "react";
+import { useRef } from 'react';
+import Header from "components/Headers/Header";
+import Grid from '@mui/material/Grid';
+import Flippy, { FrontSide, BackSide } from 'react-flippy';// Lazy load ReactHoverFlip as it is a pure react component 
+// import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-=========================================================
-* Argon Dashboard React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import { useState } from "react";
-// node.js library that concatenates classes (strings)
-import classnames from "classnames";
-// javascipt plugin for creating charts
-import Chart from "chart.js";
-// react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  NavItem,
-  NavLink,
-  Nav,
-  Container,
-  Row,
-} from "reactstrap";
-
-// core components
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-}
- from "variables/charts.js";
-
-import Header from "components/Headers/Header.js";
-
-const Index = (props) => {
-  const [activeNav, setActiveNav] = useState(1);
-  const [chartExample1Data, setChartExample1Data] = useState("data1");
-
-  if (window.Chart) {
-    parseOptions(Chart, chartOptions());
-  }
-
-  const toggleNavs = (e, index) => {
-    e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data("data" + index);
-  };
+function Index() {
+  const ref = useRef();
   return (
+    
     <>
+    
       <Header />
       {/* Page content */}
-      <Container className="mt--9" fluid>
-          
-            <Card className="bg-secondary.bg-gradient shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-light ls-1 mb-1">
-                      Overview
-                    </h6>
-                    <h2 className="text-dark mb-0">Data Loaded</h2>
-                  </div>
-                  <div className="col">
-                    <Nav className="justify-content-end" pills>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 1,
-                          })}
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 1)}
-                        >
-                          <span className="d-none d-md-block">Month</span>
-                          <span className="d-md-none">M</span>
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 2,
-                          })}
-                          data-toggle="tab"
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 2)}
-                        >
-                          <span className="d-none d-md-block">Week</span>
-                          <span className="d-md-none">W</span>
-                        </NavLink>
-                      </NavItem>
-                    </Nav>
-                  </div>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Line
-                    data={chartExample1[chartExample1Data]}
-                    options={chartExample1.options}
-                    getDatasetAtEvent={(e) => console.log(e)}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-      </Container>
+  <Grid container spacing={2} padding={2} >
+  <Grid item xs={4} >
+    <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+        color:"black",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#eb0a1e',}} >
+    Party <br />
+    </FrontSide>
+    <BackSide style={{ 
+          }}>
+    Data pertaining to individuals or organizations directly involved or interested in TFS.
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+  <Grid item xs={4}>
+    <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+        color:"black",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#2ca58d'}} >
+    Asset <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Data pertaining to the identification of assets owned by parties associated with TFS.
+
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+  <Grid item xs={4}>
+  <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+    color:"black",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#654a91'}} >
+    Product <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Data indicating the Product type - LSE, RTL, or BLN.
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+</Grid>
+
+
+<Grid container spacing={2} padding={2}>
+  <Grid item xs={4} >
+    <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+        color:"black",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          textAlign: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#7a7c00'}} >
+    Alternate ID <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Data pertaining to alternate identifiers of the party. It also includes contact and contract information related to the party.
+
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+
+  <Grid item xs={4}>
+    <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+        color:"black",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#bc5c00'}} >
+    Phone <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Data pertaining to the phone contacts of the party. 
+
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+  <Grid item xs={4}>
+  <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+        color:"black",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#008c00'}} >
+      Other <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Any other miscellaneous data pertaining to the personal information of the party including Military Duty and Banking Information.
+
+
+
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+</Grid>
+
+
+<Grid container spacing={2} padding={2}>
+  <Grid item xs={4} >
+    <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#0a2342'}} >
+
+Borrower <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Data pertaining to the party relationship, and all the borrower-flag information related to the party's account with TFS.
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+
+  <Grid item xs={4}>
+    <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+        color:"black",
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#ff88a7'}} >
+      Address <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Data pertaining to the physical address associated with the party's account with TFS.
+
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+  <Grid item xs={4}>
+  <Flippy
+      flipOnHover={true} // default false
+      flipOnClick={false} // default false
+      flipDirection="horizontal" // horizontal or vertical
+      ref={ref} // to use toggle method like ref.curret.toggle()
+      // if you pass isFlipped prop component will be controlled component.
+      // and other props, which will go to div
+      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+  >
+    <FrontSide style={{ fontSize: "45px",
+        color:"black",
+
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          backgroundColor: '#84bc9c'}} >
+      Email <br />
+    </FrontSide>
+    <BackSide style={{ backgroundColor: '#'}}>
+    Data pertaining to the email address, its validity, and most recent updates of the party.
+
+
+
+    </BackSide>
+    
+  </Flippy>
+  </Grid>
+</Grid>
     </>
   );
 };

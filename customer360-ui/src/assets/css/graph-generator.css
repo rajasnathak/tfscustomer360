@@ -22,8 +22,8 @@
 .hidden {
   display: none !important;
 }
-.active {
-  display: unset !important
+.active-category {
+  /* display:  !important */
 }
 
 .node text {

@@ -1,4 +1,14 @@
 
+button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
 .main-container {
   display: "flex";
   justify-content: "center";
@@ -74,11 +84,12 @@ div#category-info {
   margin: 5px;
 }
 
-circle, .legend-label {
+.legend-label {
   text-align: center;
   vertical-align: middle;
   margin: 0;
   pointer-events: none;
+  cursor:grab;
 }
 
 div#sidepanel {
@@ -143,6 +154,28 @@ span.node-info-value {
   color: #58595b;
 }
 
+.drilldown-node {
+  stroke: #334f7c;
+  stroke-width: 4;
+  stroke-dasharray: 6;
+}
+
+.legend-button {
+  color: #fff;
+  background-color: #adb5bd;
+  border-color: #adb5bd;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.legend-button:hover {
+  color: #fff;
+  background-color: #adb5bd;
+  border-color: #adb5bd;
+}
+.legend-button:focus,
+.legend-button.focus {
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08),
+    0 0 0 0 rgba(173, 181, 189, 0.5);
+}
 
 
 /* ....................................................................... */

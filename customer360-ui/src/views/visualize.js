@@ -12,6 +12,7 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
+import Accordion from 'react-bootstrap/Accordion';
 // core components
 import Header from "components/Headers/Header.js";
 // Import Graph
@@ -146,70 +147,83 @@ const Visualize = (props) => {
                           {/* <button id="drilldown">Drill down</button> */}
                         </div>
                       </div>
-
-                      <div id="node-legend">
-                        <div id="category-info">
-                          
-                          <div className="legend-column justify-content-top">
-                            <div className={setClassName("Party")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                                <circle cx="25" cy="25" r="10" fill="#eb0a1e"/>
-                              </svg>
-                              <h3 className="legend-label">Party</h3>
-                            </div>
-                            <div className={setClassName("Asset")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#2ca58d"/>
-                              </svg>
-                              <h3 className="legend-label">Asset</h3>
-                            </div>
-                            <div className={setClassName("Alternate Id")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#7a7c00"/>
-                              </svg>
-                              <h3 className="legend-label">Alternate Id</h3>
-                            </div>
-                            <div className={setClassName("Phone")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#bc5c00"/>
-                              </svg>
-                              <h3 className="legend-label">Phone</h3>
-                            </div>
-                            <div className={setClassName("Email")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#84bc9c"/>
-                              </svg>
-                              <h3 className="legend-label">Email</h3>
+                      <Accordion defaultActiveKey="0" id="node-legend">
+                        <Accordion.Item eventKey="0">
+                          <Accordion.Header className="btn btn-light">Node Legend</Accordion.Header>
+                          <Accordion.Body>
+                          <div>
+                            <div id="category-info">
+                              
+                              <div className="legend-column justify-content-top">
+                                <div className={setClassName("Party")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                    <circle cx="25" cy="25" r="10" fill="#eb0a1e"/>
+                                  </svg>
+                                  <h3 className="legend-label">Party</h3>
+                                </div>
+                                <div className={setClassName("Asset")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#2ca58d"/>
+                                  </svg>
+                                  <h3 className="legend-label">Asset</h3>
+                                </div>
+                                <div className={setClassName("Alternate Id")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#7a7c00"/>
+                                  </svg>
+                                  <h3 className="legend-label">Alternate Id</h3>
+                                </div>
+                                <div className={setClassName("Phone")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#bc5c00"/>
+                                  </svg>
+                                  <h3 className="legend-label">Phone</h3>
+                                </div>
+                                <div className={setClassName("Email")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#84bc9c"/>
+                                  </svg>
+                                  <h3 className="legend-label">Email</h3>
+                                </div>
+                              </div>
+                              <div className="legend-column justify-content-top">
+                                <div className={setClassName("Address")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#ff88a7"/>
+                                  </svg>
+                                  <h3 className="legend-label">Address</h3>
+                                </div>
+                                <div className={setClassName("Other")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#008c00"/>
+                                  </svg>
+                                  <h3 className="legend-label">Other</h3>
+                                </div>
+                                <div className={setClassName("Borrower")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#0a2342"/>
+                                  </svg>
+                                  <h3 className="legend-label">Borrower</h3>
+                                </div>
+                                <div className={setClassName("Product")} onClick={updateFilters}>
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#654a91"/>
+                                  </svg>
+                                  <h3 className="legend-label">Product</h3>
+                                </div>
+                                <div className="legend-row inactive-category" >
+                                  <svg className="legend-node">
+                                  <circle cx="25" cy="25" r="10" fill="#ffffff" className="drilldown-node"/>
+                                  </svg>
+                                  <h3 className="legend-label">Drill Down</h3>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div className="legend-column justify-content-top">
-                            <div className={setClassName("Address")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#ff88a7"/>
-                              </svg>
-                              <h3 className="legend-label">Address</h3>
-                            </div>
-                            <div className={setClassName("Other")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#008c00"/>
-                              </svg>
-                              <h3 className="legend-label">Other</h3>
-                            </div>
-                            <div className={setClassName("Borrower")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#0a2342"/>
-                              </svg>
-                              <h3 className="legend-label">Borrower</h3>
-                            </div>
-                            <div className={setClassName("Product")} onClick={updateFilters}>
-                              <svg className="legend-node">
-                              <circle cx="25" cy="25" r="10" fill="#654a91"/>
-                              </svg>
-                              <h3 className="legend-label">Product</h3>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                      
                     </div>
                   </Card>
                 ) : (

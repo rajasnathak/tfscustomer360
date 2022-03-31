@@ -5,16 +5,74 @@ import Grid from '@mui/material/Grid';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';// Lazy load ReactHoverFlip as it is a pure react component 
 // import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-function Index() {
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: '1px solid rgba(0, 0, 0, .125)',
+}));
+  
+
+export default function Index() {
   const ref = useRef();
+  const [expanded, setExpanded] = React.useState('panel1');
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
   return (
     
     <>
     
       <Header />
       {/* Page content */}
-  <Grid container spacing={2} padding={2} >
-  <Grid item xs={4} >
+      <div>
+      <Box
+        display="flex" 
+        width={'100%'} height={'100%'} 
+        bgcolor="#32325d"
+        color='white'
+        padding={5}
+      >
+        <Box m="auto">
+        Welcome Home! You can get a complete 360 view of customer(s) here. Let’s see how… <br/><br/>
+
+The first dropdown for search gives you the option to select the type of data you want to look at. Each of these categories pertain to some information fields associated with the customer/s in question. <br/><br/>
+
+Next, the search bar gives you the option to search by a few categories using the “Search by” drop-down: <br/><br/>
+
+All Data: The search returns all the information across all categories discussed below for all the customers in our database.<br/><br/>
+
+UPID: The search returns the unique customer to which this Unique Party Identifier belongs.<br/><br/>
+
+Customer Name: The search returns all the customers with the name mentioned. The search keyword/s should correspond to the full customer’s name including the first, last, and middle names along with any prefixes/suffixes in the name.<br/><br/>
+
+Account Number: The search returns all the customers associated with the given account number.<br/><br/>
+
+VIN: The search returns all the customers associated with the given Vehicle Identification Number.<br/><br/><br/>
+
+Finally, you enter the search keyword corresponding to one of the criteria above that you selected and click search – “Voila!” you get a graph showing you the 360o view of the profile of customer/s.<br/><br/>
+
+Reading the Graph:<br/><br/>
+
+So, once you have the graph with the information corresponding to the categories you want to see, now what? You obviously want to play with the graph dynamically searching through different categories, and that is where the Node Legend comes into play:<br/><br/>
+
+Node Legend: You can dynamically select the categories you want to view in the graph by clicking the categories corresponding to the ones you want to see.<br/><br/>
+
+Hover Over the graph to single out and highlight portions of the graph you want to view. Click on the Nodes to view the metadata regarding the node.<br/><br/>
+
+In addition, you can also Drill Down on the nodes which have a dashed line highlighted around them. These nodes have the ability to open up into further categories of information. Click on these nodes and click on the drill down option that is prompted.<br/><br/>
+
+Easy right? Get started! <br/>
+        </Box>
+        </Box>
+
+    </div>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+          <Typography>Category Definitions</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <Grid container spacing={2} padding={2} paddingLeft={9}>
+  <Grid item xs={2.3} >
     <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -22,9 +80,9 @@ function Index() {
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
         color:"black",
           position: "absolute",
           width: "100%",
@@ -42,7 +100,7 @@ function Index() {
     
   </Flippy>
   </Grid>
-  <Grid item xs={4}>
+  <Grid item xs={2.3}>
     <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -50,9 +108,9 @@ function Index() {
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
         color:"black",
           position: "absolute",
           width: "100%",
@@ -70,7 +128,7 @@ function Index() {
     
   </Flippy>
   </Grid>
-  <Grid item xs={4}>
+  <Grid item xs={2.3}>
   <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -78,9 +136,9 @@ function Index() {
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
     color:"black",
           position: "absolute",
           width: "100%",
@@ -97,11 +155,8 @@ function Index() {
     
   </Flippy>
   </Grid>
-</Grid>
 
-
-<Grid container spacing={2} padding={2}>
-  <Grid item xs={4} >
+  <Grid item xs={2.3} >
     <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -109,9 +164,9 @@ function Index() {
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
         color:"black",
           position: "absolute",
           width: "100%",
@@ -131,7 +186,7 @@ function Index() {
   </Flippy>
   </Grid>
 
-  <Grid item xs={4}>
+  <Grid item xs={2.3}>
     <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -139,9 +194,9 @@ function Index() {
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
         color:"black",
           position: "absolute",
           width: "100%",
@@ -159,7 +214,12 @@ function Index() {
     
   </Flippy>
   </Grid>
-  <Grid item xs={4}>
+
+</Grid>
+
+
+<Grid container spacing={2} padding={1} paddingLeft={11} paddingTop={2}>
+<Grid item xs={3}>
   <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -167,9 +227,9 @@ function Index() {
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
         color:"black",
           position: "absolute",
           width: "100%",
@@ -180,7 +240,7 @@ function Index() {
           backgroundColor: '#008c00'}} >
       Other <br />
     </FrontSide>
-    <BackSide style={{ backgroundColor: '#'}}>
+    <BackSide style={{ fontSize:"0.9rem"}}>
     Any other miscellaneous data pertaining to the personal information of the party including Military Duty and Banking Information.
 
 
@@ -189,11 +249,7 @@ function Index() {
     
   </Flippy>
   </Grid>
-</Grid>
-
-
-<Grid container spacing={2} padding={2}>
-  <Grid item xs={4} >
+  <Grid item xs={3} >
     <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -201,9 +257,11 @@ function Index() {
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
+            color:"darkgray",
+
           position: "absolute",
           width: "100%",
           display: "flex",
@@ -221,7 +279,7 @@ Borrower <br />
   </Flippy>
   </Grid>
 
-  <Grid item xs={4}>
+  <Grid item xs={3}>
     <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -229,9 +287,9 @@ Borrower <br />
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
         color:"black",
           position: "absolute",
           width: "100%",
@@ -249,7 +307,7 @@ Borrower <br />
     
   </Flippy>
   </Grid>
-  <Grid item xs={4}>
+  <Grid item xs={3}>
   <Flippy
       flipOnHover={true} // default false
       flipOnClick={false} // default false
@@ -257,9 +315,9 @@ Borrower <br />
       ref={ref} // to use toggle method like ref.curret.toggle()
       // if you pass isFlipped prop component will be controlled component.
       // and other props, which will go to div
-      style={{ width: '250px', height: '250px' }} /// these are optional style, it is not necessary
+      style={{ width: '190px', height: '190px' }} /// these are optional style, it is not necessary
   >
-    <FrontSide style={{ fontSize: "45px",
+    <FrontSide style={{ fontSize: "30px",
         color:"black",
 
           position: "absolute",
@@ -281,8 +339,9 @@ Borrower <br />
   </Flippy>
   </Grid>
 </Grid>
+        </AccordionDetails>
+      </Accordion>
+  
     </>
   );
 };
-
-export default Index;

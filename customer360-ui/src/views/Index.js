@@ -1,6 +1,13 @@
 import React from "react";
 import { useRef } from 'react';
 import Header from "components/Headers/Header";
+import { styled } from "@mui/system";
+import { Accordion } from "@mui/material";
+import MuiAccordion from '@mui/material/Accordion';
+import { AccordionSummary } from "@mui/material";
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import { Box } from "@mui/system";
 import Grid from '@mui/material/Grid';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';// Lazy load ReactHoverFlip as it is a pure react component 
 // import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';

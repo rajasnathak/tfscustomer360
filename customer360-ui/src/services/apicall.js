@@ -109,6 +109,13 @@ class APIForm extends Component {
 
   // Event handler for submitting a search request for the form
   async handleSubmit(event) {
+    var searchparameters = {
+      "all": "all",
+      "upid": "UUID",
+      "name": "name",
+      "acctNum": "Account number",
+      "vin": "vin",
+    }
  
     event.preventDefault();
     const { upid } = this.state;
@@ -130,10 +137,10 @@ class APIForm extends Component {
       console.log(error.toJSON());
       console.log(error.toJSON().status);
       this.props.passToHeader(null, error.toJSON().status, null, null);
-    });;
+    });
 
     // eslint-disable-next-line react/prop-types
-    this.props.passToHeader(response, 200, [this.state.sparam], this.state.filters);
+    this.props.passToHeader(response, 200, [searchparameters[this.state.sparam]], this.state.filters);
 
     // console.log(response);
   }

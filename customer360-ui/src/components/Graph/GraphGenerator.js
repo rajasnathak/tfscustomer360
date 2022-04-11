@@ -21,7 +21,7 @@ export function runForceGraph(
   searchParams,
   nodeHoverTooltip) {
   // Apply UIDs to nodes
-  console.log(graphData);
+  console.log(searchParams);
   let uniqueSubjectUuids = new Map();
   let uniqueObjectUuids = new Map();
   var drillDownIds = [];
@@ -38,7 +38,7 @@ export function runForceGraph(
       // We want to connect on the search paramater, so make them have the same UID
       // If the predicate is a search parameter
       if (searchParams.includes(d.predicate.value)) {
-        // If the object map
+        // If the object map doesn't have this object, set as a new random UUID
         if (!uniqueObjectUuids.has(d.object.value))
           uniqueObjectUuids.set(d.object.value, uuidv4());
         // If map DOES have this object, apply the same UUID
@@ -49,6 +49,19 @@ export function runForceGraph(
       
       // If relationship is "type", don't return. This is metadata
       if(d.predicate.value == "type") return {}
+
+      // If object node is URI (can drill down) remove its literal counterpart
+      if(d.object.type == "uri") {
+        var test_value = d.object.value;
+        var test_root = d.subject.value;
+        if(data.some( t => (t.object.value == test_value && t.object.type == "literal" && t.subject.value == test_root))) {
+          // console.log(duplicate.object);
+        data.splice(data.findIndex(t => (t.object.value == test_value && t.object.type == "literal")) , 1)
+
+        }
+        // console.log(duplicate.object);
+
+      }
       return Object.assign(
         {},
         {
@@ -91,7 +104,7 @@ export function runForceGraph(
         
         subjectUuid = drillDownIds[drillDownIds.length - 1];
         objectUuid = uuidv4();
-        console.log(d.object);
+        // console.log(d.object);
       }
       // If relationship is "type", don't return. This is metadata
       if(d.predicate.value == "type") return {}
@@ -334,7 +347,7 @@ export function runForceGraph(
       .join("circle")
       // .attr("class", "node")
       .attr("class", function (d) {
-        if (d.type == "uri" && d.category != "Root") return "node drillDown " + filterCategories(d, "node");
+        if (d.type == "uri" && d.category != "Root" && !drillDownIds.includes(d.id)) return "node drillDown " + filterCategories(d, "node");
         else return "node " + filterCategories(d, "node");
       })
       .attr("r", radius)
@@ -476,14 +489,25 @@ export function runForceGraph(
   //   }
   // }
 
-  async function drillDown(event, root) {
+  function removeDrillDownClass(node) {
+    // Remove drill down class once node has been drilled down on
+    console.log(node.target.classList);
+    node.target.classList.remove("label-drillDown");
+    node.target.classList.remove("drillDown");
+    console.log(node.target.classList);
+  }
+
+  async function drillDown(event, root, node) {
     event.preventDefault();
     // button -> node panel -> cover -> node info cover -> node entry relationship -> node info value
+    var param_value = event.path[1].children[0].children[3].children[0].children[1].innerText;
     var relationship = event.path[1].children[0].children[3].children[4].children[1].innerText;
     // var relationship = event.target.path;
     console.log(event);
     console.log(relationship);
     console.log(root);
+    var search_value = param_value + "/" + root;
+    console.log(search_value);
     
     // event.preventDefault();
     const headers = {
@@ -496,10 +520,16 @@ export function runForceGraph(
         params: {
           query_type: "drillDown",
           search_param: relationship,
-          value: root,
+          value: search_value,
         },
       }
-    );
+    )
+    .catch(function (error) {
+      console.log(error.toJSON());
+      console.log(error.toJSON().status);
+    });
+
+
     console.log(graphData);
     let drillDownData = response.data.results.bindings
     console.log(drillDownData);
@@ -509,6 +539,8 @@ export function runForceGraph(
     // RERENDER GRAPH
     createNodesAndLinks(newGraphData, true);
     setupD3();
+    removeDrillDownClass(node);
+
   }
 
 
@@ -525,20 +557,24 @@ export function runForceGraph(
     //   newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
     // Fill the div with contnent and display the panel
     nodeInfoDivVanilla.innerHTML = getNodeInfo(node.target.__data__, nodes);
-    // nodeInfoDivVanilla.appendChild(button);
-    // If Node cann drill down, add the drill down buttonn
+
+    // If Node can drill down, add the drill down button
+    // Note: If ndoe has been drilled down already, don't add the drill down button
     if (
-      node.target.classList.contains("drillDown") ||
-      node.target.classList.contains("label-drillDown")
-    )
-    var root = node.target.__data__.subject;
-    drillDownIds.push(node.target.__data__.id);
-    console.log(drillDownIds[drillDownIds.length - 1]);
-    addDrillDownButton(nodeInfoDivVanilla, root);
+      !drillDownIds.includes(node.target.__data__.id) &&
+      (node.target.classList.contains("drillDown") ||
+      node.target.classList.contains("label-drillDown"))
+    ){
+      var root = node.target.__data__.subject;
+      drillDownIds.push(node.target.__data__.id);
+      console.log(drillDownIds[drillDownIds.length - 1]);
+      addDrillDownButton(nodeInfoDivVanilla, root, node);
+    }
+    
     nodeInfoDiv.attr("class", "panel_on");
   }
 
-  function addDrillDownButton(nodeInfoDivVanilla, root) {
+  function addDrillDownButton(nodeInfoDivVanilla, root, node) {
     // Create button
     var button = document.createElement("button");
     button.innerHTML = "Drill Down";
@@ -547,7 +583,7 @@ export function runForceGraph(
     // Set on click evennt listener
     console.log(root);
     button.onclick = (e) => {
-      drillDown(e, root);
+      drillDown(e, root, node);
    }
     // button.onclick = (e) =>
     //   newSearch(e, node.target.__data__.predicate, node.target.__data__.name);

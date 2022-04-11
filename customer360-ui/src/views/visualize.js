@@ -211,7 +211,7 @@ const Visualize = (props) => {
                                   </svg>
                                   <h3 className="legend-label">Product</h3>
                                 </div>
-                                <div className="legend-row inactive-category" >
+                                <div id="drilldown-row" className="inactive-category" >
                                   <svg className="legend-node">
                                   <circle cx="25" cy="25" r="10" fill="#ffffff" className="drilldown-node"/>
                                   </svg>

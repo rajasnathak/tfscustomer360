@@ -1,7 +1,7 @@
 {
-  "name": "material-dashboard-react",
+  "name": "tfs-customer-360",
   "version": "1.10.0",
-  "description": "Material Dashboard React. Coded by Creative Tim",
+  "description": "Customer 360 graph visualization application",
   "private": false,
   "main": "dist/index.js",
   "dependencies": {
@@ -55,7 +55,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
+    "url": ""
   },
   "browserslist": {
     "production": [

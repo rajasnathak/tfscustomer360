@@ -4,22 +4,23 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 import { withRouter } from "react-router";
-import {useState} from "react";
+import { useState } from "react";
 import DrillDownModal from "components/PopUps/DrillDownModal";
 
-import closeIcon from "../../assets/img/icons/close.png"
+import closeIcon from "../../assets/img/icons/close.png";
 
-import categories from "../../data/node-categories"
-import colors from "../../data/category-colors"
-import "../../assets/css/graph-generator.css"
+import categories from "../../data/node-categories";
+import colors from "../../data/category-colors";
+import "../../assets/css/graph-generator.css";
 
 export function runForceGraph(
-// const runForceGraph = (
+  // const runForceGraph = (
   container,
   graphData,
   filters,
   searchParams,
-  nodeHoverTooltip) {
+  nodeHoverTooltip
+) {
   // Apply UIDs to nodes
   console.log(searchParams);
   let uniqueSubjectUuids = new Map();
@@ -46,21 +47,31 @@ export function runForceGraph(
       }
       // If not a search parameter, provide a unique identifer to the object node
       else objectUuid = uuidv4();
-      
+
       // If relationship is "type", don't return. This is metadata
-      if(d.predicate.value == "type") return {}
+      if (d.predicate.value == "type") return {};
 
       // If object node is URI (can drill down) remove its literal counterpart
-      if(d.object.type == "uri") {
+      if (d.object.type == "uri") {
         var test_value = d.object.value;
         var test_root = d.subject.value;
-        if(data.some( t => (t.object.value == test_value && t.object.type == "literal" && t.subject.value == test_root))) {
+        if (
+          data.some(
+            (t) =>
+              t.object.value == test_value &&
+              t.object.type == "literal" &&
+              t.subject.value == test_root
+          )
+        ) {
           // console.log(duplicate.object);
-        data.splice(data.findIndex(t => (t.object.value == test_value && t.object.type == "literal")) , 1)
-
+          data.splice(
+            data.findIndex(
+              (t) => t.object.value == test_value && t.object.type == "literal"
+            ),
+            1
+          );
         }
         // console.log(duplicate.object);
-
       }
       return Object.assign(
         {},
@@ -69,7 +80,7 @@ export function runForceGraph(
             type: d.subject.type,
             value: d.subject.value,
             id: subjectUuid,
-            category: categories["00"]
+            category: categories["00"],
           },
           predicate: {
             type: d.predicate.type,
@@ -80,12 +91,14 @@ export function runForceGraph(
             type: d.object.type,
             value: d.object.value,
             id: objectUuid,
-            category: d.object.category ? categories[d.object.category] : categories["09"]
+            category: d.object.category
+              ? categories[d.object.category]
+              : categories["09"],
           },
         }
       );
     });
-    data = data.filter(value => Object.keys(value).length !== 0);
+    data = data.filter((value) => Object.keys(value).length !== 0);
     console.log(data);
     return data;
   };
@@ -95,19 +108,18 @@ export function runForceGraph(
       let subjectUuid = "";
       let objectUuid = "";
       // If both the subject and object IDs are set in this triple, maintain
-      if(d.subject.id && d.object.id) {
+      if (d.subject.id && d.object.id) {
         subjectUuid = d.subject.id;
         objectUuid = d.object.id;
       }
-      // Otherwise, 
+      // Otherwise,
       else {
-        
         subjectUuid = drillDownIds[drillDownIds.length - 1];
         objectUuid = uuidv4();
         // console.log(d.object);
       }
       // If relationship is "type", don't return. This is metadata
-      if(d.predicate.value == "type") return {}
+      if (d.predicate.value == "type") return {};
       // If not a search parameter, provide a unique identifer to the object node
       // else objectUuid = uuidv4();
       return Object.assign(
@@ -117,7 +129,7 @@ export function runForceGraph(
             type: d.subject.type,
             value: d.subject.value,
             id: subjectUuid,
-            category: categories["00"]
+            category: categories["00"],
           },
           predicate: {
             type: d.predicate.type,
@@ -128,18 +140,17 @@ export function runForceGraph(
             type: d.object.type,
             value: d.object.value,
             id: objectUuid,
-            category: d.object.category ? d.object.category : "Party"
+            category: d.object.category ? d.object.category : "Party",
           },
         }
       );
     });
     // console.log(uniqueSubjectUuids);
-    data = data.filter(value => Object.keys(value).length !== 0);
+    data = data.filter((value) => Object.keys(value).length !== 0);
     // console.log(data);
     return data;
   };
 
-  
   const removeDuplicates = (nodes, type) => {
     /* Each triple returns an additional subject, but we only need one subject
     connected to each object node*/
@@ -149,13 +160,13 @@ export function runForceGraph(
       uniqueValuesSet.add(obj.name);
       if (type == "object")
         return !(isPresentInSet && uniqueObjectUuids.has(obj.name));
-      else{
-        if(drillDownIds.includes(obj.id)) {
+      else {
+        if (drillDownIds.includes(obj.id)) {
           console.log("false for subject");
           return false; // remove the extra subject node
         }
-        return !(isPresentInSet);
-      } 
+        return !isPresentInSet;
+      }
     });
     return unique_nodes;
   };
@@ -163,52 +174,57 @@ export function runForceGraph(
   // Set unqiue identifers for the data
   var links, subject_nodes, object_nodes, nodes;
   function createNodesAndLinks(data, isDrillDown) {
-    isDrillDown ? graphData = setNewUids(data) : graphData = setuids(data);
+    isDrillDown ? (graphData = setNewUids(data)) : (graphData = setuids(data));
     console.log(graphData);
     // Define the links between nodes
     links = graphData.map((d) =>
-    Object.assign(
-      {},
-      {
-        source: d.subject.id,
-        target: d.object.id,
-        name: d.predicate.value,
-      }
-    )
-  );
+      Object.assign(
+        {},
+        {
+          source: d.subject.id,
+          target: d.object.id,
+          name: d.predicate.value,
+        }
+      )
+    );
 
-  // Define the subject nodes
-  subject_nodes = graphData.map((d) =>
-    Object.assign(
-      {},
-      { id: d.subject.id, name: d.subject.value, type: d.subject.type, category: d.subject.category }
-    )
-  );
-  //////////////////////////////////
-  /* remove duplicate subject nodes */
-  //////////////////////////////////
-  subject_nodes = removeDuplicates(subject_nodes, "subject");
-  console.log(subject_nodes);
-  // Define the object nodes
-  object_nodes = graphData.map((d) =>
-    Object.assign(
-      {},
-      {
-        id: d.object.id,
-        name: d.object.value,
-        type: d.object.type,
-        predicate: d.predicate.value,
-        subject: d.subject.value,
-        category: d.object.category
-      }
-    )
-  );
-  /* remove duplicate subject nodes */
+    // Define the subject nodes
+    subject_nodes = graphData.map((d) =>
+      Object.assign(
+        {},
+        {
+          id: d.subject.id,
+          name: d.subject.value,
+          type: d.subject.type,
+          category: d.subject.category,
+        }
+      )
+    );
+    //////////////////////////////////
+    /* remove duplicate subject nodes */
+    //////////////////////////////////
+    subject_nodes = removeDuplicates(subject_nodes, "subject");
+    console.log(subject_nodes);
+    // Define the object nodes
+    object_nodes = graphData.map((d) =>
+      Object.assign(
+        {},
+        {
+          id: d.object.id,
+          name: d.object.value,
+          type: d.object.type,
+          predicate: d.predicate.value,
+          subject: d.subject.value,
+          category: d.object.category,
+        }
+      )
+    );
+    /* remove duplicate subject nodes */
     object_nodes = removeDuplicates(object_nodes, "object");
 
     nodes = subject_nodes.concat(object_nodes);
   }
-  
+
   createNodesAndLinks(graphData, false);
 
   let nodeCount = nodes.length;
@@ -220,7 +236,7 @@ export function runForceGraph(
   const width = containerRect.width * 2;
   const radius = 32;
   let scale;
-  subjectCount > 5 ? scale = 1.5 : scale = 1.5;
+  subjectCount > 5 ? (scale = 1.5) : (scale = 1.5);
 
   // helper functions
   // retrieve color for given node
@@ -268,56 +284,68 @@ export function runForceGraph(
   ///////
   // D3 Code //
   /////////////
-  
-  var simulation, svg, link, nodeInfoDiv, nodeInfoDivVanilla, node, node_label, link_label;
-  
+
+  var simulation,
+    svg,
+    link,
+    nodeInfoDiv,
+    nodeInfoDivVanilla,
+    node,
+    node_label,
+    link_label;
 
   let setupD3 = function () {
-    
     simulation = d3
-    .forceSimulation(nodes)
-    .force(
-      "link",
-      d3
-        .forceLink(links)
-        .id((d) => d.id)
-        .distance(linkDistance)
-    )
-    // Apply to all nodes. Negative value is repulsion, positive is attraction
-    .force("charge", d3.forceManyBody().strength(function(d){
-      var charge = -500;
-      // console.log(d);
-      if (d.category == "Root") charge = 10 * charge;
-      console.log(charge);
-      return charge;
-  }))
-    .force("x", d3.forceX(width / 2))
-    .force("y", d3.forceY(height / 2))
-    .on("tick", onTick);
+      .forceSimulation(nodes)
+      .force(
+        "link",
+        d3
+          .forceLink(links)
+          .id((d) => d.id)
+          .distance(linkDistance)
+      )
+      // Apply to all nodes. Negative value is repulsion, positive is attraction
+      .force(
+        "charge",
+        d3.forceManyBody().strength(function (d) {
+          var charge = -500;
+          // console.log(d);
+          if (d.category == "Root") charge = 10 * charge;
+          console.log(charge);
+          return charge;
+        })
+      )
+      .force("x", d3.forceX(width / 2))
+      .force("y", d3.forceY(height / 2))
+      .on("tick", onTick);
 
-  svg = d3
-    .select(container)
-    .html("")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("viewBox", `0 0 ${width} ${height}`);
+    svg = d3
+      .select(container)
+      .html("")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", `0 0 ${width} ${height}`);
     // .call(zoomer);
-  var zoom_container = svg.append("svg:g")
-          .attr("class", "plotting-area")
-          .attr("width", width)
-          .attr("height", height);
-  var zoom;
-  svg
-    .call(
-      (zoom = d3.zoom().on("zoom", function (event) {
-        zoom_container.attr("transform", event.transform);
-      }))
-    )
-    .call(zoom.transform, d3.zoomIdentity.translate(-width/4, -height/4).scale(scale));
-    svg.selectAll("line").remove();//add this to remove the links
-    svg.selectAll("circle").remove();//add this to remove the nodes  
-    svg.selectAll("text.label").remove();//add this to remove the nodes  
+    var zoom_container = svg
+      .append("svg:g")
+      .attr("class", "plotting-area")
+      .attr("width", width)
+      .attr("height", height);
+    var zoom;
+    svg
+      .call(
+        (zoom = d3.zoom().on("zoom", function (event) {
+          zoom_container.attr("transform", event.transform);
+        }))
+      )
+      .call(
+        zoom.transform,
+        d3.zoomIdentity.translate(-width / 4, -height / 4).scale(scale)
+      );
+    svg.selectAll("line").remove(); //add this to remove the links
+    svg.selectAll("circle").remove(); //add this to remove the nodes
+    svg.selectAll("text.label").remove(); //add this to remove the nodes
 
     nodeInfoDiv = d3.select("#nodeInfo");
     nodeInfoDivVanilla = document.getElementById("nodeInfo");
@@ -334,9 +362,9 @@ export function runForceGraph(
       .attr("stroke-width", "1px")
       .attr("stroke", "#58595B")
       .attr("marker-end", "url(#arrowhead)");
-      // .attr("display", function(d) {
-      //   return hideElement(d, "link");
-      // });
+    // .attr("display", function(d) {
+    //   return hideElement(d, "link");
+    // });
 
     node = zoom_container
       .append("g")
@@ -347,13 +375,18 @@ export function runForceGraph(
       .join("circle")
       // .attr("class", "node")
       .attr("class", function (d) {
-        if (d.type == "uri" && d.category != "Root" && !drillDownIds.includes(d.id)) return "node drillDown " + filterCategories(d, "node");
+        if (
+          d.type == "uri" &&
+          d.category != "Root" &&
+          !drillDownIds.includes(d.id)
+        )
+          return "node drillDown " + filterCategories(d, "node");
         else return "node " + filterCategories(d, "node");
       })
       .attr("r", radius)
       .attr("fill", function (d) {
-        if (d.category == undefined) return colors["Party"]
-        return colors[d.category]
+        if (d.category == undefined) return colors["Party"];
+        return colors[d.category];
       })
       // .attr("display", function(d) {
       //   return hideElement(d, "node");
@@ -366,7 +399,6 @@ export function runForceGraph(
         showNodePanel(d);
       });
 
-
     node_label = zoom_container
       .append("g")
       .attr("class", "labels")
@@ -376,7 +408,8 @@ export function runForceGraph(
       .append("text")
       .style("text-anchor", "middle")
       .attr("class", function (d) {
-        if (d.type == "uri") return "node-label label-drillDown " + filterCategories(d, "node");
+        if (d.type == "uri")
+          return "node-label label-drillDown " + filterCategories(d, "node");
         else return "node-label " + filterCategories(d, "node");
       })
       .style("cursor", "default")
@@ -420,7 +453,7 @@ export function runForceGraph(
         return d.name;
       });
   };
-  
+
   setupD3();
 
   //////////////
@@ -500,38 +533,40 @@ export function runForceGraph(
   async function drillDown(event, root, node) {
     event.preventDefault();
     // button -> node panel -> cover -> node info cover -> node entry relationship -> node info value
-    var param_value = event.path[1].children[0].children[3].children[0].children[1].innerText;
-    var relationship = event.path[1].children[0].children[3].children[4].children[1].innerText;
+    var param_value =
+      event.path[1].children[0].children[3].children[0].children[1].innerText;
+    var relationship =
+      event.path[1].children[0].children[3].children[4].children[1].innerText;
     // var relationship = event.target.path;
     console.log(event);
     console.log(relationship);
     console.log(root);
     var search_value = param_value + "/" + root;
     console.log(search_value);
-    
+
     // event.preventDefault();
     const headers = {
       method: "GET",
     };
-    let response = await axios.get(
-      "https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod/sparqlQuery",
-      {
-        headers: headers,
-        params: {
-          query_type: "drillDown",
-          search_param: relationship,
-          value: search_value,
-        },
-      }
-    )
-    .catch(function (error) {
-      console.log(error.toJSON());
-      console.log(error.toJSON().status);
-    });
-
+    let response = await axios
+      .get(
+        "https://8enlt8jyo0.execute-api.us-east-1.amazonaws.com/prod/sparqlQuery",
+        {
+          headers: headers,
+          params: {
+            query_type: "drillDown",
+            search_param: relationship,
+            value: search_value,
+          },
+        }
+      )
+      .catch(function (error) {
+        console.log(error.toJSON());
+        console.log(error.toJSON().status);
+      });
 
     console.log(graphData);
-    let drillDownData = response.data.results.bindings
+    let drillDownData = response.data.results.bindings;
     console.log(drillDownData);
     // If no data returned, notify user
     // if(drillDownData.length == 0) getComponent();
@@ -540,9 +575,7 @@ export function runForceGraph(
     createNodesAndLinks(newGraphData, true);
     setupD3();
     removeDrillDownClass(node);
-
   }
-
 
   // Event handler for clickinga node
   // Opens the node panel with more information on the node that was clicked
@@ -563,14 +596,14 @@ export function runForceGraph(
     if (
       !drillDownIds.includes(node.target.__data__.id) &&
       (node.target.classList.contains("drillDown") ||
-      node.target.classList.contains("label-drillDown"))
-    ){
+        node.target.classList.contains("label-drillDown"))
+    ) {
       var root = node.target.__data__.subject;
       drillDownIds.push(node.target.__data__.id);
       console.log(drillDownIds[drillDownIds.length - 1]);
       addDrillDownButton(nodeInfoDivVanilla, root, node);
     }
-    
+
     nodeInfoDiv.attr("class", "panel_on");
   }
 
@@ -579,12 +612,12 @@ export function runForceGraph(
     var button = document.createElement("button");
     button.innerHTML = "Drill Down";
     button.id = "drillDownButton";
-    button.className = "btn btn-light"
+    button.className = "btn btn-light";
     // Set on click evennt listener
     console.log(root);
     button.onclick = (e) => {
       drillDown(e, root, node);
-   }
+    };
     // button.onclick = (e) =>
     //   newSearch(e, node.target.__data__.predicate, node.target.__data__.name);
     nodeInfoDivVanilla.appendChild(button);
@@ -600,42 +633,34 @@ export function runForceGraph(
 
   function filterCategories(d, type) {
     // console.log(d);
-    if(type == "link"){
-      if (!filters.some(e => e.value == d.target.category)){
+    if (type == "link") {
+      if (!filters.some((e) => e.value == d.target.category)) {
         return "hidden";
-      }
-      else return "active-category";
-    }
-
-    else if(type == "node") {
-      if(d.category == "Root") return "active-category";
-      else if (!filters.some(e => e.value == d.category)){
+      } else return "active-category";
+    } else if (type == "node") {
+      if (d.category == "Root") return "active-category";
+      else if (!filters.some((e) => e.value == d.category)) {
         return "hidden";
-      }
-      else return "active-category";
+      } else return "active-category";
     }
   }
 
   function hideElement(d, type) {
     // console.log(d);
-    if(type == "link"){
-      if (!filters.some(e => e.value == d.target.category)){
+    if (type == "link") {
+      if (!filters.some((e) => e.value == d.target.category)) {
         return "none";
-      }
-      else return "unset";
-    }
-
-    else if(type == "node") {
-      if(d.category == "Root") return "unset";
-      else if (!filters.some(e => e.value == d.category)){
+      } else return "unset";
+    } else if (type == "node") {
+      if (d.category == "Root") return "unset";
+      else if (!filters.some((e) => e.value == d.category)) {
         return "none";
-      }
-      else return "unset";
+      } else return "unset";
     }
   }
 
   function onTick() {
-     // update node positions
+    // update node positions
     // node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
     node
       .attr("cx", function (d) {
@@ -754,5 +779,5 @@ export function runForceGraph(
     d3.selectAll(".link").transition().duration(500).style("opacity", 1);
     d3.selectAll(".node").transition().duration(500).style("opacity", 1);
   }
-};
+}
 export default withRouter(runForceGraph);

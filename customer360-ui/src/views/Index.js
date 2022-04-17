@@ -39,7 +39,7 @@ export default function Index() {
         padding={5}
       >
         <Box m="auto">
-        Welcome Home! You can get a complete 360 view of customer(s) here. Let’s see how… <br/><br/>
+        Welcome Home! You can get a complete 360 view of customer(s) here. Let’s see how… <br/><br/><br/>
 
 The first dropdown for search gives you the option to select the type of data you want to look at. Each of these categories pertain to some information fields associated with the customer/s in question. <br/><br/>
 
@@ -53,9 +53,9 @@ Customer Name: The search returns all the customers with the name mentioned. The
 
 Account Number: The search returns all the customers associated with the given account number.<br/><br/>
 
-VIN: The search returns all the customers associated with the given Vehicle Identification Number.<br/><br/><br/>
+VIN: The search returns all the customers associated with the given Vehicle Identification Number.<br/><br/>
 
-Finally, you enter the search keyword corresponding to one of the criteria above that you selected and click search – “Voila!” you get a graph showing you the 360o view of the profile of customer/s.<br/><br/>
+Finally, you enter the search keyword corresponding to one of the criteria above that you selected and click search – “Voila!” you get a graph showing you the 360o view of the profile of customer/s.<br/><br/><br/>
 
 Reading the Graph:<br/><br/>
 
@@ -65,7 +65,7 @@ Node Legend: You can dynamically select the categories you want to view in the g
 
 Hover Over the graph to single out and highlight portions of the graph you want to view. Click on the Nodes to view the metadata regarding the node.<br/><br/>
 
-In addition, you can also Drill Down on the nodes which have a dashed line highlighted around them. These nodes have the ability to open up into further categories of information. Click on these nodes and click on the drill down option that is prompted.<br/><br/>
+In addition, you can also Drill Down on the nodes which have a dashed line highlighted around them. These nodes have the ability to open up into further categories of information. Click on these nodes and click on the drill down option that is prompted.<br/><br/><br/>
 
 Easy right? Get started! <br/>
         </Box>

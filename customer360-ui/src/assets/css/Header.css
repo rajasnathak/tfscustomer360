@@ -1,0 +1,11 @@
+.bg-gradient-toyota {
+  background: linear-gradient(87deg, #f88e8e 0, #eb0a1e 100%) !important;
+}
+.title {
+  font-family: "Avenir Black", "Arial Black", sans-serif;
+  font-size: 7vw;
+}
+
+.header-logo {
+  max-width: 15vw;
+}

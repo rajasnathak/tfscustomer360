@@ -74,7 +74,10 @@ const Sidebar = (props) => {
       return (
         <NavItem key={key}>
           <NavLink
-            to={prop.layout + prop.path}
+            to={{
+              pathname: prop.layout + prop.path,
+              state: { data: null, searchParams: null },
+            }}
             tag={NavLinkRRD}
             onClick={closeCollapse}
             activeClassName="active"
@@ -132,30 +135,10 @@ const Sidebar = (props) => {
             <DropdownToggle nav className="nav-link-icon">
               <i className="ni ni-bell-55" />
             </DropdownToggle>
-            <DropdownMenu
-              aria-labelledby="navbar-default_dropdown_1"
-              className="dropdown-menu-arrow"
-              right
-            >
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another action</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Something else here</DropdownItem>
-            </DropdownMenu>
           </UncontrolledDropdown>
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
-              <Media className="align-items-center">
-                <span className="avatar avatar-sm rounded-circle">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/theme/team-1-800x800.jpg")
-                        .default
-                    }
-                  />
-                </span>
-              </Media>
+              <Media className="align-items-center"></Media>
             </DropdownToggle>
           </UncontrolledDropdown>
         </Nav>

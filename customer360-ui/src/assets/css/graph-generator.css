@@ -19,6 +19,12 @@
 .female {
   fill: rgb(246, 0, 0);
 }
+.hidden {
+  display: none !important;
+}
+.active-category {
+  /* display:  !important */
+}
 
 .node text {
   font: 12px sans-serif;
@@ -34,4 +40,25 @@ div.tooltip {
   border: 0;
   border-radius: 8px;
   pointer-events: none;
+}
+
+.node-label {
+  font-weight: 800;
+  font-family: "Avenir Black", "Arial Black", sans-serif;
+  color: black !important;
+  background-color: #fff !important;
+  overflow: auto;
+}
+
+.link-label {
+  font-weight: 500;
+  font-family: "Avenir Black", "Arial Black", sans-serif;
+  /* color: #58595b !important; */
+  overflow: auto;
+}
+
+.drillDown {
+  stroke: #334f7c;
+  stroke-width: 4;
+  stroke-dasharray: 8;
 }

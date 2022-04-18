@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="customer360-ui/src/assets/img/brand/c360-black.png" alt="Logo" width="200" height="200">
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -22,11 +22,8 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -90,25 +87,111 @@ To get a local copy up and running follow these simple example steps.
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-  - [ ] Chinese
-  - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+<Box m="auto">
+            <ul>
+              <li>
+                The first dropdown for search gives you the option to select the
+                type of data you want to look at. Each of these categories
+                pertain to some information fields associated with the
+                customer(s) in question.
+                <br /> A brief description of each category can be seen at the bottom of the home page.
+                <br />
+                <br />
+              </li>
+              <div align="center">
+                  <img src="customer360-ui/src/assets/img/screenshots/dropdown-1.png" width="15%" height="auto">
+              </div>
+              <li>
+                Next, the search bar gives you the option to search by a few
+                categories using the “Search by” drop-down: <br />
+                <br />
+                <div align="center">
+                  <img src="customer360-ui/src/assets/img/screenshots/dropdown-2.png" width="15%" height="auto">
+              </div>
+                <ul>
+                  <li>
+                    All Data: The search returns all the information across all
+                    categories discussed below for all the customers in our
+                    database.
+                    <br />
+                  </li>
+                  <br />
+                  <li>
+                    UPID: The search returns the unique customer to which this
+                    Unique Party Identifier belongs.
+                    <br />
+                  </li>
+                  <br />
+                  <li>
+                    Customer Name: The search returns all the customers with the
+                    name mentioned. The search keyword/s should correspond to
+                    the full customer’s name including the first, last, and
+                    middle names <br />
+                    along with any prefixes/suffixes in the name.
+                    <br />
+                  </li>
+                  <br />
+                  <li>
+                    Account Number: The search returns all the customers
+                    associated with the given account number.
+                    <br />
+                  </li>
+                  <br />
+                  <li>
+                    VIN: The search returns all the customers associated with
+                    the given Vehicle Identification Number.
+                    <br />
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <br />
+            <li>
+              Finally, you enter the search keyword corresponding to one of the
+              criteria above that you selected and click search – “Voila!” you
+              get a graph showing you the 360&deg; view of the profile of
+              customer(s).
+              <br />
+            </li>
+            <br />
+            <br />
+            Reading the Graph:
+            <br />
+            <br />
+            <li>
+              So, once you have the graph with the information corresponding to
+              the categories you want to see, now what? You obviously want to
+              play with the graph dynamically searching through different
+              categories, <br />
+              and that is where the Node Legend comes into play:
+              <br />
+            </li>
+            <br />
+            <li>
+              Node Legend: You can dynamically select the categories you want to
+              view in the graph by clicking the categories corresponding to the
+              ones you want to see.
+              <br />
+            </li>
+            <br />
+            <li>
+              Hover Over the graph to single out and highlight portions of the
+              graph you want to view. Click on the Nodes to view the metadata
+              regarding the node.
+              <br />
+            </li>
+            <br />
+            <li>
+              In addition, you can also Drill Down on the nodes which have a
+              dashed line highlighted around them. These nodes have the ability
+              to open up into further categories of information. Click on these
+              nodes and click on the drill down option that is prompted.
+              <br />
+            </li>
+            <br />
+            <br />
+            Easy right? Get started! <br />
+          </Box>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -116,67 +199,20 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+We hope TFS finds our platform of great use. Please feel free to test, dissect, and build upon Customer 360.
 
 <!-- CONTACT -->
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Griffin McPherson- g.mcpherson@tcu.edu
+Rajas Nathak- rajas.nathak@tcu.edu
+Tyler Jacques- t.jacques@tcu.edu
+Lucas Karwal lucas.karwal@tcu.edu
+Shruti Sharma- s.sharma@tcu.edu
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-- [Choose an Open Source License](https://choosealicense.com)
-- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-- [Malven's Grid Cheatsheet](https://grid.malven.co/)
-- [Img Shields](https://shields.io)
-- [GitHub Pages](https://pages.github.com)
-- [Font Awesome](https://fontawesome.com)
-- [React Icons](https://react-icons.github.io/react-icons/search)
+Project Link: [https://github.com/rajasnathak/tfscustomer360](https://github.com/rajasnathak/tfscustomer360)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+<p align="right">(<a href="#top">back to top</a>)</p>

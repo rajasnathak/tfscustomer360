@@ -172,6 +172,9 @@ To get a local copy up and running follow these simple example steps.
               view in the graph by clicking the categories corresponding to the
               ones you want to see.
               <br />
+              <div align="center">
+                  <img src="customer360-ui/src/assets/img/screenshots/legend.png" width="15%" height="auto">
+              </div>
             </li>
             <br />
             <li>
@@ -179,6 +182,12 @@ To get a local copy up and running follow these simple example steps.
               graph you want to view. Click on the Nodes to view the metadata
               regarding the node.
               <br />
+              <div align="center">
+                  <img src="customer360-ui/src/assets/img/screenshots/highlight.png" width="15%" height="auto">
+              </div>
+              <div align="center">
+                  <img src="customer360-ui/src/assets/img/screenshots/panel.png" width="15%" height="auto">
+              </div>
             </li>
             <br />
             <li>
@@ -187,6 +196,9 @@ To get a local copy up and running follow these simple example steps.
               to open up into further categories of information. Click on these
               nodes and click on the drill down option that is prompted.
               <br />
+              <div align="center">
+                  <img src="customer360-ui/src/assets/img/screenshots/drilldown.png" width="15%" height="auto">
+              </div>
             </li>
             <br />
             <br />

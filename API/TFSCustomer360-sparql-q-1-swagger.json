@@ -1,0 +1,133 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1",
+    "title" : "sparqlQ"
+  },
+  "host" : "8enlt8jyo0.execute-api.us-east-1.amazonaws.com",
+  "basePath" : "/prod",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/sparqlQuery" : {
+      "get" : {
+        "summary" : "Gets customer information from parameters provided",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response - A list of SPO triples",
+            "schema" : {
+              "type" : "object"
+            },
+            "examples" : {
+              "application/json" : {
+                "head" : {
+                  "vars" : [ "subject", "predicate", "object" ]
+                },
+                "results" : {
+                  "bindings" : [ {
+                    "subject" : {
+                      "type" : "uri",
+                      "value" : "ROBERT R HALL"
+                    },
+                    "predicate" : {
+                      "type" : "uri",
+                      "value" : "type"
+                    },
+                    "object" : {
+                      "type" : "uri",
+                      "value" : "name"
+                    }
+                  }, {
+                    "subject" : {
+                      "type" : "uri",
+                      "value" : "ROBERT R HALL"
+                    },
+                    "predicate" : {
+                      "type" : "uri",
+                      "value" : "created"
+                    },
+                    "object" : {
+                      "type" : "literal",
+                      "value" : "23 JUL 20  06:34 PM",
+                      "category" : "02"
+                    }
+                  }, {
+                    "subject" : {
+                      "type" : "uri",
+                      "value" : "ROBERT R HALL"
+                    },
+                    "predicate" : {
+                      "type" : "uri",
+                      "value" : "created"
+                    },
+                    "object" : {
+                      "type" : "uri",
+                      "value" : "23 JUL 20  06:34 PM",
+                      "category" : "02",
+                      "customerName" : "ROBERT R HALL"
+                    }
+                  }, {
+                    "subject" : {
+                      "type" : "uri",
+                      "value" : "ROBERT R HALL"
+                    },
+                    "predicate" : {
+                      "type" : "uri",
+                      "value" : "created"
+                    },
+                    "object" : {
+                      "type" : "literal",
+                      "value" : "07 OCT 20  07:38 AM",
+                      "category" : "09"
+                    }
+                  } ]
+                }
+              }
+            },
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "parameters" : [ {
+          "name" : "query_type",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "example" : "sparql"
+        }, {
+          "name" : "search_param",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "example" : "vin"
+        }, {
+          "name" : "value",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "example" : "JM1BPACL3L1172182"
+        }, {
+          "in" : "header",
+          "name" : "method",
+          "type" : "string",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "definitions" : {
+    "Empty" : {
+      "type" : "object",
+      "title" : "Empty Schema"
+    }
+  }
+}
